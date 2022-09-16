@@ -1,14 +1,24 @@
 package com.liferay.docs.guestbook.portlet.portlet;
 
 import com.liferay.docs.guestbook.model.Entry;
+import com.liferay.docs.guestbook.model.Guestbook;
 import com.liferay.docs.guestbook.portlet.constants.GuestbookWebPortletKeys;
 
+import com.liferay.docs.guestbook.service.EntryLocalService;
+import com.liferay.docs.guestbook.service.GuestbookLocalService;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 
 import javax.portlet.*;
 
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,63 +49,105 @@ import java.util.logging.Logger;
 )
 public class GuestbookWebPortlet extends MVCPortlet {
 
-	public void addEntry(ActionRequest request, ActionResponse response) {
-		try {
-			PortletPreferences prefs = request.getPreferences();
+	public void addEntry(ActionRequest request, ActionResponse response) throws PortalException {
 
-			String[] guestbookEntries = prefs.getValues("guestbook-entries", new String[1]);
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(
+				Entry.class.getName(), request);
 
-			ArrayList<String> entries = new ArrayList<String>();
+		String userName = ParamUtil.getString(request, "name");
+		String email = ParamUtil.getString(request, "email");
+		String message = ParamUtil.getString(request, "message");
+		long guestbookId = ParamUtil.getLong(request, "guestbookId");
+		long entryId = ParamUtil.getLong(request, "entryId");
 
-			if (guestbookEntries[0] != null) {
-				entries = new ArrayList<String>(Arrays.asList(prefs.getValues(
-						"guestbook-entries", new String[1]
-				)));
-			}
-
-			String userName = ParamUtil.getString(request, "name");
-			String message = ParamUtil.getString(request, "message");
-			String entry = userName + "^" + message;
-
-			entries.add(entry);
-
-			String[] array = entries.toArray(new String[entries.size()]);
-
-			prefs.setValues("guestbook-entries", array);
-
+		if (entryId > 0) {
 			try {
-				prefs.store();
-			} catch(IOException ex) {
-				Logger.getLogger(GuestbookWebPortlet.class.getName()).log(
-						Level.SEVERE, null, ex
+				_entryLocalService.updateEntry(
+						serviceContext.getUserId(),
+						guestbookId,
+						entryId,
+						userName,
+						email,
+						message,
+						serviceContext
 				);
-			}
-			catch (ValidatorException ex) {
-				Logger.getLogger(GuestbookWebPortlet.class.getName()).log(
-						Level.SEVERE, null, ex
+
+				SessionMessages.add(request, "entryAdded");
+
+				response.setRenderParameter(
+						"guestbookId",
+						Long.toString(guestbookId)
 				);
+			} catch (Exception e) {
+				System.out.println(e);
+
+				SessionErrors.add(request, e.getClass().getName());
+
+				PortalUtil.copyRequestParameters(request, response);
+
+				response.setRenderParameter(
+						"mvcPath", "/guestbookwebportlet/edit_entry.jsp");
 			}
 		}
-		catch (ReadOnlyException ex) {
-			Logger.getLogger(GuestbookWebPortlet.class.getName()).log(
-					Level.SEVERE, null, ex
-			);
+		else {
+			try {
+				_entryLocalService.addEntry(
+						serviceContext.getUserId(), guestbookId, userName, email,
+						message, serviceContext);
+
+				SessionMessages.add(request, "entryAdded");
+
+				response.setRenderParameter(
+						"guestbookId", Long.toString(guestbookId));
+
+			}
+			catch (Exception e) {
+				SessionErrors.add(request, e.getClass().getName());
+
+				PortalUtil.copyRequestParameters(request, response);
+
+				response.setRenderParameter(
+						"mvcPath", "/guestbookwebportlet/edit_entry.jsp");
+			}
 		}
 	}
 
 	@Override
 	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException,
 			PortletException {
-		PortletPreferences prefs = renderRequest.getPreferences();
-		String[] guestbookEntries = prefs.getValues("guestbook-entries", new String[1]);
 
-		if (guestbookEntries[0] != null) {
-			List<Entry> entries = parseEntries(guestbookEntries);
-			renderRequest.setAttribute("entries", entries);
+		try {
+			ServiceContext serviceContext = ServiceContextFactory.getInstance(
+					Guestbook.class.getName(), renderRequest
+			);
+
+			long groupId = serviceContext.getScopeGroupId();
+
+			long guestbookId = ParamUtil.getLong(renderRequest, "guestbookId");
+
+			List<Guestbook> guestbooks = _guestbookLocalService.getGuestbooks(groupId);
+
+			if (guestbooks.isEmpty()) {
+				Guestbook guestbook = _guestbookLocalService.addGuestbook(
+						serviceContext.getUserId(),
+						"Main",
+						serviceContext
+				);
+
+				guestbookId = guestbook.getGuestbookId();
+			}
+
+			if (guestbookId == 0) {
+				guestbookId = guestbooks.get(0).getGuestbookId();
+			}
+
+			renderRequest.setAttribute("guestbookId", guestbookId);
+		}
+		catch (Exception e) {
+			throw new PortletException(e);
 		}
 
 		super.render(renderRequest, renderResponse);
-
 	}
 
 	private List<Entry> parseEntries(String[] guestbookEntries) {
@@ -109,4 +161,40 @@ public class GuestbookWebPortlet extends MVCPortlet {
 
 		return entries;
 	}
+
+
+	public void deleteEntry(ActionRequest request, ActionResponse response) throws PortalException {
+		long entryId = ParamUtil.getLong(request, "entryId");
+		long guestbookId = ParamUtil.getLong(request, "guestbookId");
+
+		ServiceContext serviceContext = ServiceContextFactory.getInstance(
+				Entry.class.getName(), request);
+
+		try {
+
+			response.setRenderParameter(
+					"guestbookId", Long.toString(guestbookId));
+
+			_entryLocalService.deleteEntry(entryId, serviceContext);
+		}
+
+		catch (Exception e) {
+			Logger.getLogger(GuestbookWebPortlet.class.getName()).log(
+					Level.SEVERE, null, e);
+		}
+	}
+
+	@Reference(unbind = "-")
+	protected void setEntryService(EntryLocalService entryLocalService) {
+		_entryLocalService = entryLocalService;
+	}
+
+	@Reference(unbind = "-")
+	protected void setGuestbookService(GuestbookLocalService guestbookLocalService) {
+		_guestbookLocalService = guestbookLocalService;
+	}
+
+
+	private EntryLocalService _entryLocalService;
+	private GuestbookLocalService _guestbookLocalService;
 }
