@@ -1,0 +1,11 @@
+Bundle-Name: comment-service-api
+Bundle-SymbolicName: com.dogoo.common.comment.service.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.common.comment.service.exception,\
+	com.dogoo.common.comment.service.model,\
+	com.dogoo.common.comment.service.service,\
+	com.dogoo.common.comment.service.service.persistence,\
+    com.dogoo.common.comment.service.mapper.model
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../comment-service-service/service.xml

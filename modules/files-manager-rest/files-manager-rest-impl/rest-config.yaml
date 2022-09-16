@@ -1,0 +1,7 @@
+apiDir: "../files-manager-rest-api/src/main/java"
+apiPackagePath: "com.dogoo.common.files.manager.rest"
+application:
+    baseURI: "/dogoo/files-manager-rest"
+    className: "FilesManagerRestApplication"
+    name: "FilesManagerRest"
+author: "khoa"

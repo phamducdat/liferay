@@ -1,0 +1,19 @@
+subprojects {
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				from components.java
+				group = 'com.dogoo.common.dataitems.service'
+				version = rootProject.ext.version
+			}
+		}
+	}
+}
+
+tasks.withType(JavaCompile) {
+
+	// Generated classes using Jodd library are unable to be read when compiled against JDK 11
+
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}

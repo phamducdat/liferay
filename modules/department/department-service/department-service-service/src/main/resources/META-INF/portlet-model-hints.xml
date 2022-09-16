@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.dogoo.department.service.model.BusinessEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="businessId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="creatorId" type="long" />
+		<field name="customerId" type="long" />
+		<field name="name" type="String" />
+	</model>
+	<model name="com.dogoo.department.service.model.DepartmentEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="departmentId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="creatorId" type="long" />
+		<field name="customerId" type="long" />
+		<field name="name" type="String" />
+		<field name="code" type="String" />
+		<field name="parentId" type="long" />
+		<field name="order" type="Integer" />
+		<field name="type" type="String" />
+		<field name="businessId" type="long" />
+		<field name="tax" type="String" />
+		<field name="address" type="String" />
+		<field name="headOffice" type="String" />
+		<field name="alias" type="String" />
+		<field name="description" type="String" />
+		<field name="status" type="String" />
+		<field name="statusDate" type="Date" />
+	</model>
+</model-hints>

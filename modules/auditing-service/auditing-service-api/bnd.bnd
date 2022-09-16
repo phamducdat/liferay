@@ -1,0 +1,15 @@
+Bundle-Name: auditing-service-api
+Bundle-SymbolicName: com.dogoo.common.auditing.service.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.common.auditing.service.exception,\
+	com.dogoo.common.auditing.service.model,\
+	com.dogoo.common.auditing.service.service,\
+	com.dogoo.common.auditing.service.service.persistence,\
+	com.dogoo.common.auditing.service.mapper.model,\
+	com.dogoo.common.auditing.service.retriever,\
+	com.dogoo.common.auditing.service.constant,\
+	com.dogoo.common.auditing.service.interf
+
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../auditing-service-service/service.xml

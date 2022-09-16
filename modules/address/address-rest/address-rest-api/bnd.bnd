@@ -1,0 +1,8 @@
+Bundle-Name: address-rest-api
+Bundle-SymbolicName: com.dogoo.address.rest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+    com.dogoo.address.rest.dto.v1_0,\
+	com.dogoo.address.rest.resource.v1_0,\
+	com.dogoo.address.rest.dto.v2_0,\
+	com.dogoo.address.rest.resource.v2_0

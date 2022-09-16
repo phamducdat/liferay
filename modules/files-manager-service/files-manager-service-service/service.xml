@@ -1,0 +1,432 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN"
+        "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
+
+<service-builder dependency-injector="ds"
+                 auto-namespace-tables="false"
+                 package-path="com.dogoo.common.files.manager.service">
+
+    <namespace>DG_FILE_MANAGER</namespace>
+
+    <entity local-service="true"
+            name="DGFileManagerEntry"
+            table="DG_FileManager"
+            remote-service="false"
+            external-reference-code="true"
+            uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="fileManagerId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="modifiedDate" type="Date"/>
+        <column name="customerId" type="long"/>
+        <column name="creatorId" type="long"/>
+
+        <!-- Other fields -->
+
+        <column name="fileId" type="long"/>
+        <column name="parentCode" type="String"/>
+        <column name="fileType" type="String"/>
+        <column name="type" type="String"/>
+        <column name="pkType" type="String"/>
+        <column name="fileName" type="String"/>
+        <column name="fileSize" type="String"/>
+        <column name="moduleId" type="String"/>
+        <column name="appId" type="String"/>
+
+        <finder name="F_C" return-type="DGFileManagerEntry">
+            <finder-column name="fileId"/>
+            <finder-column name="customerId"/>
+        </finder>
+
+    </entity>
+
+    <entity local-service="true"
+            name="DGFileVersionEntry"
+            table="DG_FileVersion"
+            remote-service="false"
+            external-reference-code="true"
+            uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="fileVersionId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="modifiedDate" type="Date"/>
+        <column name="customerId" type="long"/>
+        <column name="creatorId" type="long"/>
+
+        <!-- Other fields -->
+        <column name="fileId" type="long"/>
+        <column name="accountId" type="long"/>
+
+        <finder name="C_FV" return-type="DGFileVersionEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="fileVersionId"/>
+        </finder>
+
+    </entity>
+
+
+    <entity local-service="true"
+            name="DGFileSettingPermissionEntry"
+            table="DG_FileSettingPermission"
+            remote-service="false"
+            external-reference-code="true"
+            uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="fileSettingPermissionId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="modifiedDate" type="Date"/>
+        <column name="customerId" type="long"/>
+        <column name="creatorId" type="long"/>
+
+        <!-- Other fields -->
+
+        <column name="fileId" type="long"/>
+        <column name="permissionEditor" type="boolean"/>
+        <column name="permissionViewer" type="boolean"/>
+        <column name="type" type="String"/>
+
+        <finder name="C_F" return-type="DGFileGeneralPermissionEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+        </finder>
+
+        <finder name="C_F_T" return-type="DGFileGeneralPermissionEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+            <finder-column name="type"/>
+        </finder>
+    </entity>
+
+    <entity local-service="true"
+            name="DGFileGeneralPermissionEntry"
+            table="DG_FileGeneralPermission"
+            remote-service="false"
+            external-reference-code="true"
+            uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="fileGeneralPermissionId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="modifiedDate" type="Date"/>
+        <column name="customerId" type="long"/>
+        <column name="creatorId" type="long"/>
+
+        <!-- Other fields -->
+
+        <column name="fileId" type="long"/>
+        <column name="allowed" type="String"/>
+        <column name="role" type="String"/>
+        <column name="type" type="String"/>
+
+
+        <finder name="C_F" return-type="DGFileGeneralPermissionEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+        </finder>
+
+        <finder name="C_F_T" return-type="DGFileGeneralPermissionEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+            <finder-column name="type"/>
+        </finder>
+    </entity>
+
+    <entity local-service="true"
+            name="DGFileUserPermissionEntry"
+            table="DG_FileUserPermission"
+            remote-service="false"
+            external-reference-code="true"
+            uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="fileUserPermissionId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="modifiedDate" type="Date"/>
+        <column name="customerId" type="long"/>
+        <column name="creatorId" type="long"/>
+
+        <!-- Other fields -->
+
+        <column name="fileId" type="long"/>
+        <column name="userAllowedId" type="long"/>
+        <column name="role" type="String"/>
+        <column name="status" type="String"/>
+        <column name="type" type="String"/>
+
+
+        <finder name="C_U_F" return-type="DGFileUserPermissionEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="userAllowedId"/>
+            <finder-column name="fileId"/>
+        </finder>
+
+        <finder name="C_U" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="userAllowedId"/>
+        </finder>
+
+        <finder name="C_U_S" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="userAllowedId"/>
+            <finder-column name="status"/>
+
+        </finder>
+
+        <finder name="C_F" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+        </finder>
+
+        <finder name="C_F_S" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+            <finder-column name="status"/>
+        </finder>
+
+        <finder name="C_U_F_T" return-type="DGFileUserPermissionEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="userAllowedId"/>
+            <finder-column name="fileId"/>
+            <finder-column name="type"/>
+        </finder>
+
+        <finder name="C_U_T" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="userAllowedId"/>
+            <finder-column name="type"/>
+
+        </finder>
+
+        <finder name="C_U_S_T" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="userAllowedId"/>
+            <finder-column name="status"/>
+            <finder-column name="type"/>
+
+
+        </finder>
+
+        <finder name="C_F_T" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+            <finder-column name="type"/>
+        </finder>
+
+        <finder name="C_F_S_T" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+            <finder-column name="status"/>
+            <finder-column name="type"/>
+        </finder>
+    </entity>
+
+    <entity local-service="true"
+            name="DGFileDepartmentPermissionEntry"
+            table="DG_FileDepartmentPermission"
+            remote-service="false"
+            external-reference-code="true"
+            uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="fileDepartmentPermissionId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="modifiedDate" type="Date"/>
+        <column name="customerId" type="long"/>
+        <column name="creatorId" type="long"/>
+
+        <!-- Other fields -->
+
+        <column name="fileId" type="long"/>
+        <column name="departmentId" type="long"/>
+        <column name="role" type="String"/>
+        <column name="type" type="String"/>
+
+
+        <finder name="C_D_F" return-type="DGFileDepartmentPermissionEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="departmentId"/>
+            <finder-column name="fileId"/>
+        </finder>
+
+        <finder name="C_D" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="departmentId"/>
+        </finder>
+
+        <finder name="C_F" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+        </finder>
+
+        <finder name="C_D_F_T" return-type="DGFileDepartmentPermissionEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="departmentId"/>
+            <finder-column name="fileId"/>
+            <finder-column name="type"/>
+        </finder>
+
+        <finder name="C_D_T" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="departmentId"/>
+            <finder-column name="type"/>
+        </finder>
+
+        <finder name="C_F_T" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="fileId"/>
+            <finder-column name="type"/>
+
+        </finder>
+    </entity>
+
+
+    <entity local-service="true"
+            name="DGDocumentManagerEntry"
+            table="DG_DocumentManager"
+            remote-service="false"
+            external-reference-code="true"
+            uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="documentManagerId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="modifiedDate" type="Date"/>
+        <column name="customerId" type="long"/>
+        <column name="creatorId" type="long"/>
+
+        <!-- Other fields -->
+
+        <column name="pkCode" type="String"/>
+        <column name="parentId" type="long"/>
+        <column name="name" type="String"/>
+        <column name="category" type="String"/>
+        <column name="type" type="String"/>
+        <column name="fileId" type="long"/>
+        <column name="fileSize" type="String"/>
+        <column name="fileExtension" type="String"/>
+        <column name="mineType" type="String"/>
+        <column name="path" type="String"/>
+        <column name="moduleId" type="String"/>
+        <column name="appId" type="String"/>
+        <column name="departmentId" type="long"/>
+        <column name="isPrivate" type="boolean"/>
+
+        <finder name="PC_" return-type="Collection">
+            <finder-column name="pkCode"/>
+        </finder>
+
+        <finder name="PC_PI" return-type="Collection">
+            <finder-column name="pkCode"/>
+            <finder-column name="parentId"/>
+        </finder>
+
+        <finder name="N_T_PC_PI_C_CI" return-type="DGDocumentManagerEntry">
+            <finder-column name="name"/>
+            <finder-column name="type"/>
+            <finder-column name="pkCode"/>
+            <finder-column name="parentId"/>
+            <finder-column name="category"/>
+            <finder-column name="creatorId"/>
+        </finder>
+
+        <finder name="FI_" return-type="DGDocumentManagerEntry">
+            <finder-column name="fileId"/>
+        </finder>
+
+        <finder name="PI_" return-type="Collection">
+            <finder-column name="parentId"/>
+        </finder>
+
+        <finder name="N_PI" return-type="DGDocumentManagerEntry">
+            <finder-column name="name"/>
+            <finder-column name="parentId"/>
+        </finder>
+
+        <finder name="N_PI_FE_PC" return-type="DGDocumentManagerEntry">
+            <finder-column name="name"/>
+            <finder-column name="parentId"/>
+            <finder-column name="fileExtension"/>
+            <finder-column name="pkCode"/>
+        </finder>
+    </entity>
+</service-builder>

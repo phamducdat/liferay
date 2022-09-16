@@ -1,0 +1,6 @@
+Bundle-Name: contact-rest-api
+Bundle-SymbolicName: com.dogoo.contact.rest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.contact.rest.dto.v2_0,\
+	com.dogoo.contact.rest.resource.v2_0

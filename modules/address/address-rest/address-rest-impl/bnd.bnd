@@ -1,0 +1,3 @@
+Bundle-Name: address-rest-impl
+Bundle-SymbolicName: com.dogoo.address.rest.impl
+Bundle-Version: 1.0.0

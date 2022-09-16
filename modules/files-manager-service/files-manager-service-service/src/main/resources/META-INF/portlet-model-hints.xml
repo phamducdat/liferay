@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.dogoo.common.files.manager.service.model.DGDocumentManagerEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="documentManagerId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="customerId" type="long" />
+		<field name="creatorId" type="long" />
+		<field name="pkCode" type="String" />
+		<field name="parentId" type="long" />
+		<field name="name" type="String">
+			<hint name="max-length">500</hint>
+		</field>
+		<field name="category" type="String" />
+		<field name="type" type="String" />
+		<field name="fileId" type="long" />
+		<field name="fileSize" type="String" />
+		<field name="fileExtension" type="String" />
+		<field name="mineType" type="String" />
+		<field name="path" type="String" />
+		<field name="moduleId" type="String" />
+		<field name="appId" type="String" />
+		<field name="departmentId" type="long" />
+		<field name="isPrivate" type="boolean" />
+	</model>
+	<model name="com.dogoo.common.files.manager.service.model.DGFileDepartmentPermissionEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="fileDepartmentPermissionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="customerId" type="long" />
+		<field name="creatorId" type="long" />
+		<field name="fileId" type="long" />
+		<field name="departmentId" type="long" />
+		<field name="role" type="String" />
+		<field name="type" type="String" />
+	</model>
+	<model name="com.dogoo.common.files.manager.service.model.DGFileGeneralPermissionEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="fileGeneralPermissionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="customerId" type="long" />
+		<field name="creatorId" type="long" />
+		<field name="fileId" type="long" />
+		<field name="allowed" type="String" />
+		<field name="role" type="String" />
+		<field name="type" type="String" />
+	</model>
+	<model name="com.dogoo.common.files.manager.service.model.DGFileManagerEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="fileManagerId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="customerId" type="long" />
+		<field name="creatorId" type="long" />
+		<field name="fileId" type="long" />
+		<field name="parentCode" type="String" />
+		<field name="fileType" type="String" />
+		<field name="type" type="String" />
+		<field name="pkType" type="String" />
+		<field name="fileName" type="String">
+			<hint name="max-length">500</hint>
+		</field>
+		<field name="fileSize" type="String" />
+		<field name="moduleId" type="String" />
+		<field name="appId" type="String" />
+	</model>
+	<model name="com.dogoo.common.files.manager.service.model.DGFileSettingPermissionEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="fileSettingPermissionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="customerId" type="long" />
+		<field name="creatorId" type="long" />
+		<field name="fileId" type="long" />
+		<field name="permissionEditor" type="boolean" />
+		<field name="permissionViewer" type="boolean" />
+		<field name="type" type="String" />
+	</model>
+	<model name="com.dogoo.common.files.manager.service.model.DGFileUserPermissionEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="fileUserPermissionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="customerId" type="long" />
+		<field name="creatorId" type="long" />
+		<field name="fileId" type="long" />
+		<field name="userAllowedId" type="long" />
+		<field name="role" type="String" />
+		<field name="status" type="String" />
+		<field name="type" type="String" />
+	</model>
+	<model name="com.dogoo.common.files.manager.service.model.DGFileVersionEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="fileVersionId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="customerId" type="long" />
+		<field name="creatorId" type="long" />
+		<field name="fileId" type="long" />
+		<field name="accountId" type="long" />
+	</model>
+</model-hints>

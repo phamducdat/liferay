@@ -1,0 +1,289 @@
+components:
+    schemas:
+        ExceptionType:
+            description: Exception Type
+            properties:
+                status:
+                    enum: [ BadRequest, Auth, Resource ]
+        Contact:
+            description: Contact model
+            properties:
+                id:
+                    format: int64
+                    readOnly: true
+                    type: integer
+                externalReferenceCode:
+                    readOnly: true
+                    type: string
+                facebook:
+                    type: string
+
+                twitter:
+                    type: string
+                linkedin:
+                    type: string
+                emails:
+                    items:
+                        $ref: "#/components/schemas/Email"
+
+                    type: array
+                phones:
+                    items:
+                        $ref: "#/components/schemas/Phone"
+
+                    type: array
+
+
+
+        Email:
+            type: object
+            properties:
+                id:
+                    format: int64
+                    readOnly: true
+                    type: integer
+                externalReferenceCode:
+                    readOnly: true
+                    type: string
+                emailAddress:
+                    type: string
+                isDefaulted:
+                    type: boolean
+                description:
+                    type: string
+
+        Phone:
+            type: object
+            properties:
+                id:
+                    format: int64
+                    readOnly: true
+                    type: integer
+                externalReferenceCode:
+                    readOnly: true
+                    type: string
+                number:
+                    type: string
+                isDefaulted:
+                    type: boolean
+                description:
+                    type: string
+
+
+
+info:
+    description: "ContactRest REST API"
+    license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    title: "Dogoo ContactRest Sample"
+    version: v2.0
+openapi: 3.0.1
+
+paths:
+    "/contacts":
+        get:
+            tags: ["Contact"]
+            description:
+                Retrieves the contact. Results can be paginated, filtered, searched, and sorted.
+            operationId: getContactsPage
+            parameters:
+                - in: query
+                  name: filter
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description: The data returned
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Contact"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Contact"
+                                type: array
+        post:
+            tags: ["Contact"]
+            description: Create new a Contact
+            operationId: postContact
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+            responses:
+                201:
+                    description:
+                        "Create a Contact"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+    "/contacts/{contactId}":
+        put:
+            tags: ["Contact"]
+            description: Update a Contact
+            operationId: putContact
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+            responses:
+                200:
+                    description:
+                        "Update a Contact"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+        get:
+            tags: ["Contact"]
+            description: Get a Contact
+            operationId: getContact
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    description:
+                        "Get detail a Contact"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+        delete:
+            tags: ["Contact"]
+            description: Delete a Contact
+            operationId: deleteContact
+            parameters:
+                - in: path
+                  name: contactId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                204:
+                    description:
+                        "Delete a Contact"
+                    content:
+                        application/json: {}
+                        application/xml: {}
+
+    "/contacts/by-external-reference-code/{externalReferenceCode}":
+        put:
+            tags: ["Contact"]
+            description: Update a Contact by externalReferenceCode
+            operationId: putContactByExternalReferenceCode
+            parameters:
+                - in: path
+                  name: externalReferenceCode
+                  required: true
+                  schema:
+                      type: string
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Contact"
+            responses:
+                200:
+                    description:
+                        "Update a Contact"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+        get:
+            tags: ["Contact"]
+            description: Get a Contact by externalReferenceCode
+            operationId: getContactByExternalReferenceCode
+            parameters:
+                - in: path
+                  name: externalReferenceCode
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    description:
+                        "Get a Contact"
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Contact"
+        delete:
+            tags: ["Contact"]
+            description: Delete a Contact by externalReferenceCode
+            operationId: deleteContactByExternalReferenceCode
+            parameters:
+                - in: path
+                  name: externalReferenceCode
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                204:
+                    description:
+                        "Delete a Contact"
+                    content:
+                        application/json: {}
+                        application/xml: {}
+
+

@@ -1,0 +1,278 @@
+// Check GETTING_STARTED.markdown for information regarding usage.
+// Check GETTING_STARTED.markdown for information regarding usage.
+// Check GETTING_STARTED.markdown for information regarding usage.
+// Check GETTING_STARTED.markdown for information regarding usage.
+plugins {
+    id 'jacoco'
+    id "org.sonarqube" version "3.0"
+    id 'maven-publish'
+}
+
+import org.gradle.internal.os.OperatingSystem
+
+task buildProject(type: Exec) {
+
+    workingDir "${projectDir}"
+    def argsList = []
+    if (OperatingSystem.current().isWindows()) {
+        argsList.add('cmd')
+        argsList.add('/c')
+        argsList.add('.\\gradlew')
+    } else {
+        argsList.add('./gradlew')
+    }
+
+    subprojects.each { p ->
+        if ("$p.path".lastIndexOf("-rest-impl") == ("$p.path".length() - 10)) {
+            argsList.add("$p.path" + ":buildREST")
+        }
+        if ("$p.path".lastIndexOf("-service-service") == ("$p.path".length() - 16)) {
+            argsList.add("$p.path" + ":buildSERVICE")
+        }
+    }
+
+    commandLine argsList
+    standardOutput = System.out
+    errorOutput = System.err
+    doLast {
+        println "Output: $standardOutput"
+        println "Output: $errorOutput"
+    }
+}
+
+ext {
+    version = OperatingSystem.current().isWindows() ?
+            new File(projectDir.toString() + "\\VERSION").text :
+            new File(projectDir.toString() + "/VERSION").text
+}
+
+def javaProjects() {
+    subprojects.findAll { new File(it.projectDir, 'src').directory }
+}
+
+allprojects {
+    apply plugin: 'com.jfrog.artifactory'
+    apply plugin: 'maven-publish'
+    apply plugin: 'java'
+    def homePath = System.properties['user.home'].toString()
+    homePath += OperatingSystem.current().isWindows() ?
+            "\\.gradle\\gradle.properties" : "/.gradle/gradle.properties"
+
+    Properties props = new Properties()
+    file(homePath).withInputStream { props.load(it) }
+
+    repositories {
+
+        maven {
+            url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+        }
+
+        maven {
+            url "https://repository.liferay.com/nexus/content/groups/public"
+        }
+
+        maven {
+            url = props.getProperty("artifactory_maven").toString()
+            credentials {
+                username = props.getProperty("artifactory_user").toString()
+                password = props.getProperty("artifactory_password").toString()
+            }
+        }
+    }
+}
+
+artifactoryPublish.skip = true
+
+project('modules') {
+    artifactoryPublish.skip = true
+}
+
+configure(javaProjects()) {
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+}
+
+artifactory {
+    def homePath = System.properties['user.home'].toString()
+    homePath += OperatingSystem.current().isWindows() ?
+            "\\.gradle\\gradle.properties" : "/.gradle/gradle.properties"
+
+    Properties props = new Properties()
+    file(homePath).withInputStream { props.load(it) }
+
+    contextUrl = props.getProperty("artifactory_contextUrl").toString()
+    publish {
+        repository {
+            repoKey = props.getProperty("artifactory_publish").toString()
+            username = props.getProperty("artifactory_user").toString()
+            password = props.getProperty("artifactory_password").toString()
+            maven = true
+        }
+        defaults {
+            publications('mavenJava')
+            publishArtifacts = true
+            properties = ['qa.level': 'basic', 'dev.team': 'core']
+            publishPom = true
+        }
+    }
+    resolve {
+        repository {
+            repoKey = props.getProperty("artifactory_resolve").toString()
+            username = props.getProperty("artifactory_user").toString()
+            password = props.getProperty("artifactory_password").toString()
+            maven = true
+        }
+    }
+}
+
+// aggregates jacoco results from all subprojects and core project and generate a report
+task jacocoRootTestReport(type: JacocoReport) {
+
+    def jacocoTestFiles = []
+
+    def testIntegrationFile = "/opt/app/dogoo-test/tomcat-9.0.56/bin/testIntegration.exec"
+//    def testIntegrationFile = "modules/testIntegration.exec"
+
+    if (new File(testIntegrationFile).exists()) {
+        jacocoTestFiles << testIntegrationFile
+    }
+
+    subprojects.each { p ->
+
+        def coverageFileLocation = "$p.buildDir/jacoco/test.exec"
+        if (new File(coverageFileLocation).exists()) {
+            jacocoTestFiles << coverageFileLocation
+        }
+
+        additionalSourceDirs.from(file("${p.projectDir}/src/java/main"))
+        sourceDirectories.from(file("${p.projectDir}/src/main/java"))
+        //classDirectories.from(file("${p.buildDir}/classes/java/main"))
+
+        classDirectories.from(fileTree(
+                dir: "${p.buildDir}/classes/java/main",
+                excludes: [
+                        '**/rest/client/**',
+                        '**/service/base/**',
+                        '**/service/http/**',
+                        '**/service/persistence/**',
+                        '**/model/**Entry**',
+                        '**/model/**EntryModel**',
+                        '**/model/**EntrySoap**',
+                        '**/model/**EntryTable**',
+                        '**/model/**EntryWrapper**',
+                        '**/model/impl/**',
+                        '**/resource/v1_0/factory/**',
+                        '**/rest/resource/v1_0/**',
+                        '**/rest/dto/v1_0/**',
+                        '**/rest/internal/graphql/**',
+                        '**/rest/internal/jaxrs/application/**',
+                        '**/resource/v1_0/factory/**',
+                        '**/resource/v1_0/Base**',
+                        '**/resource/v1_0/OpenAPIResourceImpl**',
+                        '**/service/**ServiceWrapper**',
+                        '**/service/**ServiceUtil**',
+                        '**/exception/NoSuch**Exception**'
+                ]
+        ))
+    }
+
+    logger.info('Aggregating next JaCoCo Coverage Files: {}', jacocoTestFiles)
+    executionData files(jacocoTestFiles)
+
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
+
+//RUN WHEN testIntegration done
+task dumpJacoco {
+    doLast {
+        def serverUrl = 'service:jmx:rmi:///jndi/rmi://localhost:8099/jmxrmi'
+        String beanName = "org.jacoco:type=Runtime"
+        def server = JmxFactory.connect(new JmxUrl(serverUrl)).MBeanServerConnection
+        def gmxb = new GroovyMBean(server, beanName)
+
+        println "Connected to:\n$gmxb\n"
+        println "Executing dump()"
+        gmxb.dump(true)
+    }
+}
+
+task resetJacoco {
+    doLast {
+        def serverUrl = 'service:jmx:rmi:///jndi/rmi://localhost:8099/jmxrmi'
+        String beanName = "org.jacoco:type=Runtime"
+        def server = JmxFactory.connect(new JmxUrl(serverUrl)).MBeanServerConnection
+        def gmxb = new GroovyMBean(server, beanName)
+
+        println "Connected to:\n$gmxb\n"
+        println "Executing reset()"
+        gmxb.reset()
+    }
+}
+
+
+sonarqube {
+    properties {
+        //property "sonar.host.url", "http://localhost:9000/"
+        property "sonar.host.url", "http://10.0.20.33:9000/"
+        property "sonar.projectKey", "dogoo-backend-v2"
+        property "sonar.projectName", "dogoo-backend-v2"
+        //property "sonar.login", "2fe813a08c5071770a8266e720f858941be39f4c"
+        //property "sonar.login", "2565ed76e22c396eda93102ececa0c5125a6c525"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.exclusions",
+                '**/rest/client/**, ' +
+                        '**/service/base/**, ' +
+                        '**/service/http/**, ' +
+                        '**/service/persistence/**, ' +
+                        '**/model/**Entry**, ' +
+                        '**/model/**EntryModel**, ' +
+                        '**/model/**EntrySoap**, ' +
+                        '**/model/**EntryTable**, ' +
+                        '**/model/**EntryWrapper**, ' +
+                        '**/model/impl/**, ' +
+                        '**/resource/v1_0/factory/**, ' +
+                        '**/rest/resource/v1_0/**, ' +
+                        '**/rest/dto/v1_0/**, ' +
+                        '**/rest/internal/graphql/**, ' +
+                        '**/rest/internal/jaxrs/application/**, ' +
+                        '**/resource/v1_0/factory/**, ' +
+                        '**/resource/v1_0/Base**, ' +
+                        '**/resource/v1_0/OpenAPIResourceImpl**, ' +
+                        '**/service/**ServiceWrapper**, ' +
+                        '**/service/**ServiceUtil**, ' +
+                        '**/exception/NoSuch**Exception**'
+        property "sonar.java.coveragePlugin", "jacoco"
+        property "sonar.coverage.jacoco.xmlReportPaths", "${buildDir}/reports/jacoco/jacocoRootTestReport/jacocoRootTestReport.xml"
+        property "sonar.coverage.exclusions",
+                '**/rest/client/**, ' +
+                        '**/**-api/**, ' +
+                        '**/**-rest-api/**, ' +
+                        '**/**-rest-test/**, ' +
+                        '**/**-rest-client/**, ' +
+                        '**/**-test/**,' +
+                        '**/*Test*/**,' +
+                        '**.*Test.java,' +
+                        '**/test/**,' +
+                        '**/model/impl/**,' +
+                        '**/service/base/**,' +
+                        '**/service/persistence/impl/**,' +
+                        '**/rest/internal/graphql/**,' +
+                        '**/rest/internal/jaxrs/application/**,' +
+                        '**/service/http/**,'
+    }
+}
+
+
+dependencies {
+    implementation 'com.liferay:com.liferay.portal.search:8.0.22'
+}
+
+repositories {
+    mavenCentral()
+}
+
+import javax.management.remote.JMXConnectorFactory as JmxFactory
+import javax.management.remote.JMXServiceURL as JmxUrl

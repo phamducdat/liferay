@@ -1,0 +1,19 @@
+subprojects {
+	publishing {
+		publications {
+			mavenJava(MavenPublication) {
+				from components.java
+				group = 'com.dogoo.address.service'
+				version = rootProject.ext.version
+			}
+		}
+	}
+}
+artifactoryPublish.skip = true
+tasks.withType(JavaCompile) {
+
+	// Generated classes using Jodd library are unable to be read when compiled against JDK 11
+
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+}

@@ -1,0 +1,3 @@
+Bundle-Name: files-manager-rest-impl
+Bundle-SymbolicName: com.dogoo.common.files.manager.rest.impl
+Bundle-Version: 1.0.0

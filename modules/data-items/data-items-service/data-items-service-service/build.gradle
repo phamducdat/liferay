@@ -1,0 +1,16 @@
+dependencies {
+	compile project(":modules:data-items:data-items-service:data-items-service-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api", version: "7.4.3.13-ga13"
+
+	compile project(":modules:common-indexer-helper")
+	compile project(":modules:common-util")
+}
+
+
+
+buildService {
+	apiDir = "../data-items-service-api/src/main/java"
+}
+
+group = "com.dogoo.common.dataitems.service"

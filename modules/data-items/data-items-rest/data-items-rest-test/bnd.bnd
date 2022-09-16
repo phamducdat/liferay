@@ -1,0 +1,4 @@
+Bundle-Name: data-items-rest-test
+Bundle-SymbolicName: com.dogoo.dataitems.rest.test
+Bundle-Version: 1.0.0
+-includeresource: com.dogoo.dataitems.rest.client.jar=../data-items-rest-client/build/libs/com.dogoo.dataitems.rest.client-1.0.0.jar;lib:=true

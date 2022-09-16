@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.dogoo.contact.service.model.ContactEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="contactId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="creatorId" type="long" />
+		<field name="customerId" type="long" />
+		<field name="facebook" type="String" />
+		<field name="twitter" type="String" />
+		<field name="linkedin" type="String" />
+	</model>
+	<model name="com.dogoo.contact.service.model.EmailEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="emailId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="creatorId" type="long" />
+		<field name="customerId" type="long" />
+		<field name="contactId" type="long" />
+		<field name="emailAddress" type="String" />
+		<field name="isDefaulted" type="boolean" />
+		<field name="description" type="String" />
+	</model>
+	<model name="com.dogoo.contact.service.model.PhoneEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="phoneId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="creatorId" type="long" />
+		<field name="customerId" type="long" />
+		<field name="contactId" type="long" />
+		<field name="number" type="String" />
+		<field name="isDefaulted" type="boolean" />
+		<field name="description" type="String" />
+	</model>
+</model-hints>

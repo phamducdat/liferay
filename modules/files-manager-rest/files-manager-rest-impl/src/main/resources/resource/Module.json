@@ -1,0 +1,26 @@
+{
+  "APPLICATION": [
+    "CHECK_IN_OUT",
+    "ABSENCE",
+    "RESIGN",
+    "SHIFT_SWAP",
+    "MISSION",
+    "OVERTIME",
+    "SHIFT_MORE",
+    "FLEXIBLE",
+    "LEAVE",
+    "SHIFT_REGISTRATION",
+    "LATE_EARLY"
+  ],
+  "PERSONNEL": [
+    "RECORD",
+    "LABEL_CONTRACT",
+    "DECISION"
+  ],
+  "WORK": [
+    "NORMAL",
+    "PROJECT",
+    "PROCESS",
+    "PHASE"
+  ]
+}

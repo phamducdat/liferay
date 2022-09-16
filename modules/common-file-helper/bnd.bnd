@@ -1,0 +1,6 @@
+Bundle-Name: common-file-helper
+Bundle-SymbolicName: com.dogoo.common.file.helper
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.common.file.helper.api,\
+	com.dogoo.common.file.helper.util,\

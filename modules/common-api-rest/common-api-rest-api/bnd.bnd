@@ -1,0 +1,6 @@
+Bundle-Name: common-api-rest-api
+Bundle-SymbolicName: com.dogoo.common.api.rest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.common.api.rest.dto.v2_0,\
+	com.dogoo.common.api.rest.resource.v2_0

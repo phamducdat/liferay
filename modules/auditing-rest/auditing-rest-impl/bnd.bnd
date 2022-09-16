@@ -1,0 +1,3 @@
+Bundle-Name: auditing-rest-impl
+Bundle-SymbolicName: com.dogoo.common.auditing.rest.impl
+Bundle-Version: 1.0.0

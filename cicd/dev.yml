@@ -1,0 +1,4 @@
+config:
+  credentials_id: credDeployDev
+  host: 10.0.20.41
+  targetDir: /home/testenv/app/dogoo-test

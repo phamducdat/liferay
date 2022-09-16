@@ -1,0 +1,3 @@
+Bundle-Name: common-api-rest-client
+Bundle-SymbolicName: com.dogoo.common.api.rest.client
+Bundle-Version: 1.0.0

@@ -1,0 +1,6 @@
+Bundle-Name: common-httpinvoker-api
+Bundle-SymbolicName: com.dogoo.common.httpinvoker
+Bundle-Version: 1.0.0
+Export-Package: \
+    com.dogoo.common.httpinvoker.api,\
+    com.dogoo.common.httpinvoker.http,\

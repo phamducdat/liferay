@@ -1,0 +1,26 @@
+def versionPath = org.gradle.internal.os.OperatingSystem.current().isWindows() ?
+		projectDir.toString() + "\\VERSION" :
+		projectDir.toString() + "/VERSION"
+
+
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+
+	compileOnly group: "com.liferay", name: "javax.xml.bind", version: "2.3.0.LIFERAY-PATCHED-2"
+
+	compile project(":modules:common-language-helper")
+	compile project(":modules:data-items:data-items-service:data-items-service-api")
+	compile project(":modules:common-exception-helper")
+	compile project(":modules:department:department-service:department-service-api")
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			group = 'com.dogoo.common.validator.helper'
+			version = (new File(versionPath).exists() && new File(versionPath).text != "")  ? new File(versionPath).text : rootProject.ext.version
+
+		}
+	}
+}

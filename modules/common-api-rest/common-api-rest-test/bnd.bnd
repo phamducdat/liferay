@@ -1,0 +1,4 @@
+Bundle-Name: common-api-rest-test
+Bundle-SymbolicName: com.dogoo.common.api.rest.test
+Bundle-Version: 1.0.0
+-includeresource: com.dogoo.common.api.rest.client.jar=../common-api-rest-client/build/libs/com.dogoo.common.api.rest.client-1.0.0.jar;lib:=true

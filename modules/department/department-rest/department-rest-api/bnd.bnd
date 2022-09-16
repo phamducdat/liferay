@@ -1,0 +1,6 @@
+Bundle-Name: department-rest-api
+Bundle-SymbolicName: com.dogoo.department.rest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.department.rest.dto.v2_0,\
+	com.dogoo.department.rest.resource.v2_0

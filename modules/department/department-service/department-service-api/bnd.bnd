@@ -1,0 +1,12 @@
+Bundle-Name: department-service-api
+Bundle-SymbolicName: com.dogoo.department.service.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.department.service.exception,\
+    com.dogoo.department.service.constant,\
+	com.dogoo.department.service.model,\
+	com.dogoo.department.service.service,\
+	com.dogoo.department.service.mapper.model,\
+	com.dogoo.department.service.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../department-service-service/service.xml

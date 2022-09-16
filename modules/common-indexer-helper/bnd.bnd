@@ -1,0 +1,4 @@
+Bundle-Name: common-indexer-helper
+Bundle-SymbolicName: com.dogoo.common.indexer.helper
+Bundle-Version: 1.0.0
+Export-Package: com.dogoo.common.indexer.helper.api

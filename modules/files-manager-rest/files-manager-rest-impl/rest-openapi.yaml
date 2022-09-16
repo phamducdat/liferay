@@ -1,0 +1,1685 @@
+components:
+  schemas:
+    Metadata:
+      description: Metadata model
+      properties:
+        moduleId:
+          type: string
+          example: "HRM"
+        appId:
+          type: string
+          example: "EMPLOYEE"
+      type: object
+    Config:
+      type: object
+      properties:
+        document:
+          $ref: "#/components/schemas/Document"
+        editorConfig:
+          $ref: "#/components/schemas/EditorConfig"
+        events:
+          $ref: "#/components/schemas/Events"
+        documentType:
+          type: string
+        type:
+          enum: [ desktop, mobile, embedded ]
+        width:
+          type: string
+    Events:
+      type: object
+      properties:
+        refreshHistory:
+          type: object
+          properties:
+            currentVersion:
+              type: string
+            history:
+              type: array
+              items:
+                type: object
+                properties:
+                  version:
+                    type: string
+                  created:
+                    type: string
+                  key:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        format: int64
+                      name:
+                        type: string
+        setHistoryData:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              url:
+                type: string
+              version:
+                type: string
+    EditorConfig:
+      type: object
+      properties:
+        callbackUrl:
+          type: string
+        coEditing:
+          type: object
+          properties:
+            mode:
+              enum: [ fast, strict ]
+        embedded:
+          type: object
+        lang:
+          type: string
+        location:
+          type: string
+        mode:
+          enum: [ edit, view ]
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+        token:
+          type: string
+    Document:
+      type: object
+      properties:
+        fileType:
+          type: string
+        key:
+          type: string
+        info:
+          type: object
+          properties:
+            favorite:
+              type: boolean
+            folder:
+              type: string
+            owner:
+              type: string
+            uploaded:
+              type: string
+              format: date
+        permissions:
+          type: object
+          properties:
+            chat:
+              type: boolean
+            comment:
+              type: boolean
+            copy:
+              type: boolean
+            deleteCommentAuthorOnly:
+              type: boolean
+            download:
+              type: boolean
+            edit:
+              type: boolean
+            editCommentAuthorOnly:
+              type: boolean
+            fillForms:
+              type: boolean
+            modifyContentControl:
+              type: boolean
+            modifyFilter:
+              type: boolean
+            print:
+              type: boolean
+            protect:
+              type: boolean
+            review:
+              type: boolean
+        title:
+          type: string
+        url:
+          type: string
+
+
+    FilePreview:
+      description: File Preview
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        fileType:
+          type: string
+        type:
+          type: string
+        title:
+          type: string
+        key:
+          type: string
+        url:
+          type: string
+        documentType:
+          type: string
+
+    FileRes:
+      description: File model
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        fileName:
+          readOnly: true
+          type: string
+        fileSize:
+          readOnly: true
+          type: string
+        mimeType:
+          readOnly: true
+          type: string
+        metadata:
+          allOf:
+            - $ref: "#/components/schemas/Metadata"
+
+    FileUpdate:
+      type: object
+      properties:
+        url:
+          type: string
+    FileData:
+      description: File Preview
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        fileType:
+          type: string
+        type:
+          type: string
+        title:
+          type: string
+        key:
+          type: string
+        url:
+          type: string
+        documentType:
+          type: string
+        data:
+          type: string
+          format: binary
+        size:
+          type: integer
+          format: int64
+    FilePermission:
+      type: object
+      properties:
+        attachPermission:
+          $ref: "#/components/schemas/AttachPermission"
+        generalPermission:
+          $ref: "#/components/schemas/GeneralPermission"
+        settingPermission:
+          $ref: "#/components/schemas/SettingPermission"
+        type:
+          type: string
+    AttachPermission:
+      type: object
+      properties:
+        users:
+          writeOnly: true
+          type: object
+          properties:
+            ids:
+              type: array
+              items:
+                type: integer
+                format: int64
+            role:
+              enum: [viewer, editor]
+        usersResponse:
+          readOnly: true
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int64
+              name:
+                type: string
+              role:
+                type: string
+        departments:
+          writeOnly: true
+          type: object
+          properties:
+            ids:
+              type: array
+              items:
+                type: integer
+                format: int64
+            role:
+              enum: [viewer, editor]
+        departmentsResponse:
+          readOnly: true
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                format: int64
+              name:
+                type: string
+              role:
+                type: string
+    FilePermissionUser:
+      type: object
+      properties:
+        role:
+          type: string
+    FilePermissionDepartment:
+      type: object
+      properties:
+        role:
+          type: string
+    GeneralPermission:
+      type: object
+      properties:
+        allowed:
+          enum: [all, limit]
+        role:
+          enum: [viewer, editor]
+    SettingPermission:
+      type: object
+      properties:
+        permissionEditor:
+          type: boolean
+        permissionViewer:
+          type: boolean
+
+    DGFileManager:
+      description: upload file
+      properties:
+        fileId:
+          description: id of the file in the dlfileentry table.
+          type: integer
+          format: int64
+        parentCode:
+          type: string
+        fileType:
+          type: string
+          readOnly: true
+        type:
+          type: string
+        pkType:
+          type: string
+        fileName:
+          type: string
+          readOnly: true
+        fileSize:
+          type: string
+          readOnly: true
+        mineType:
+          type: string
+          readOnly: true
+        metadata:
+          allOf:
+            - $ref: "#/components/schemas/Metadata"
+
+    Module:
+      properties:
+        name:
+          type: string
+        dgDocumentManagers:
+          type: array
+          items:
+            $ref: '#/components/schemas/DGDocumentManager'
+
+    Task:
+      allOf:
+        - $ref: "#/components/schemas/Metadata"
+      properties:
+        externalReferenceCode:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+
+    Path:
+      properties:
+        id:
+          readOnly: true
+          type: integer
+          format: int64
+        name:
+          readOnly: true
+          type: string
+
+    DGAttachedDocumentManager:
+      description: asdasd
+      properties:
+        externalReferenceCode:
+          type: string
+        pkCode:
+          type: array
+          items:
+            type: string
+        metadata:
+          allOf:
+            - $ref: "#/components/schemas/Metadata"
+
+    DGDocumentManager:
+      description: upload docuemnt
+      properties:
+        id:
+          description: id of the file in the dlfileentry table.
+          type: integer
+          format: int64
+          readOnly: true
+        pkCode:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [folder, file]
+        category:
+          type: string
+          enum: [personal, attached, company]
+        fileId:
+          type: integer
+          format: int64
+        parentId:
+          type: integer
+          format: int64
+        permission:
+          type: string
+          readOnly: true
+        isPrivate:
+          type: boolean
+        paths:
+          type: array
+          items:
+            $ref: '#/components/schemas/Path'
+        task:
+          allOf:
+            - $ref: "#/components/schemas/Task"
+          readOnly: true
+        role:
+          allOf:
+            - $ref: "#/components/schemas/SettingPermission"
+        metadata:
+          allOf:
+            - $ref: '#/components/schemas/Metadata'
+        uploadFilesInfo:
+          allOf:
+            - $ref: '#/components/schemas/UploadFileInfo'
+          readOnly: true
+        uploadMediaInfo:
+          allOf:
+            - $ref: '#/components/schemas/UploadFileInfo'
+          readOnly: true
+        uploadImageInfo:
+          allOf:
+            - $ref: '#/components/schemas/UploadFileInfo'
+          readOnly: true
+        uploadTextInfo:
+          allOf:
+            - $ref: '#/components/schemas/UploadFileInfo'
+          readOnly: true
+        uploadDiffInfo:
+          allOf:
+            - $ref: '#/components/schemas/UploadFileInfo'
+          readOnly: true
+        fileSize:
+          type: string
+          readOnly: true
+        extension:
+          type: string
+          readOnly: true
+        downloadPath:
+          type: string
+          readOnly: true
+        previewPath:
+          type: string
+          readOnly: true
+        mineType:
+          type: string
+          readOnly: true
+        sharedObjectBriefs:
+          type: array
+          items:
+            $ref: "#/components/schemas/SharedObjectBrief"
+        creatorId:
+          type: integer
+          format: int64
+          readOnly: true
+        creatorName:
+          type: string
+          readOnly: true
+        modifiedDate:
+          type: string
+          format: date-time
+          readOnly: true
+
+    SharedObjectBrief:
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        name:
+          type: string
+          readOnly: true
+        avatar:
+          type: string
+          readOnly: true
+        type:
+          type: string
+          enum: [account, deparment]
+
+
+    UploadFileInfo:
+      properties:
+        size:
+          type: string
+        total:
+          type: integer
+          format: int64
+
+info:
+  description: "FilesManagerRest REST API"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  title: "FilesManagerRest"
+  version: v2.0
+openapi: 3.0.1
+
+paths:
+  /files:
+    post:
+      tags:
+        - Files
+      operationId: postFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              properties:
+                metadata:
+                  $ref: "#/components/schemas/Metadata"
+                file:
+                  format: binary
+                  type: string
+        required: true
+
+      responses:
+        200:
+          description:
+            "File"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileRes"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/FileRes"
+  /files/users/{userId}:
+    get:
+      tags:
+        - Files
+      operationId: getAllFileByUserId
+      parameters:
+        - in: path
+          explode: false
+          name: userId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/FilePreview"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/FilePreview"
+                type: array
+
+          description: "getFileReview"
+  /files/{fileId}/config:
+    get:
+      tags:
+        - Files
+      operationId: getConfigFileById
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Config"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Config"
+          description: "getFileReview"
+
+  /files/{fileId}:
+    get:
+      tags:
+        - Files
+      operationId: getFileById
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileData"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/FileData"
+          description: "getFileReview"
+    put:
+      tags:
+        - Files
+      operationId: updateFile
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FileUpdate"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/FileUpdate"
+
+      responses:
+        200:
+          description:
+            "File"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FileUpdate"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/FileUpdate"
+
+
+  /files/multiple:
+    post:
+      tags:
+        - Files
+      operationId: postMultipleFiles
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              required:
+                - metadata
+                - pkCode
+                - parentId
+                - files
+                - fileSize
+              properties:
+                metadata:
+                  $ref: "#/components/schemas/Metadata"
+                pkCode:
+                  type: string
+                category:
+                  type: string
+                parentId:
+                  type: integer
+                  format: int64
+                file:
+                  format: binary
+                  type: string
+        required: true
+
+      responses:
+        200:
+          description:
+            "File"
+          content:
+            application/json: {}
+            application/xml: {}
+
+  /files/{fileId}/preview:
+    get:
+      tags:
+        - Files
+      operationId: getFilePreview
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FilePreview"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/FilePreview"
+          description: "getFileReview"
+
+  /files/{fileId}/download:
+    get:
+      tags: ["Files"]
+      operationId: getFileDownload
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      responses:
+        200:
+          description:
+            "File URL Download"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: pong
+  /files/{fileId}/file-permissions:
+    get:
+      tags:
+        - Files
+      operationId: getFilePermission
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      responses:
+        200:
+          description:
+            "File"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FilePermission"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/FilePermission"
+    post:
+      tags:
+        - Files
+      operationId: AttachPermission
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AttachPermission"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/AttachPermission"
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+  /files/{fileId}/permissions/users/{userId}:
+    put:
+      tags:
+        - Files
+      operationId: UpdateFilePermissionUser
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+        - in: path
+          explode: false
+          name: userId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilePermissionUser"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/FilePermissionUser"
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+    delete:
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+        - in: path
+          explode: false
+          name: userId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      tags:
+        - Files
+      operationId: DeleteFileUserPermission
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+  /files/{fileId}/permissions/departments/{departmentId}:
+    put:
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+        - in: path
+          explode: false
+          name: departmentId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      tags:
+        - Files
+      operationId: UpdateFilePermissionDepartment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FilePermissionDepartment"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/FilePermissionDepartment"
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+    delete:
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+        - in: path
+          explode: false
+          name: departmentId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      tags:
+        - Files
+      operationId: DeleteFilePermissionDepartment
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+  /files/{fileId}/permissions/general:
+    put:
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      tags:
+        - Files
+      operationId: updateGeneralPermission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GeneralPermission"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/GeneralPermission"
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+  /files/{fileId}/permissions/setting:
+    put:
+      parameters:
+        - in: path
+          explode: false
+          name: fileId
+          required: true
+          schema:
+            description:
+              The resource Id
+            example: 30130
+            format: int64
+            minimum: 0
+            type: integer
+          style: simple
+      tags:
+        - Files
+      operationId: updateSettingPermission
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SettingPermission"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/SettingPermission"
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+
+
+
+
+  "/file-managers":
+    post:
+      operationId: postDGFileManager
+      summary: Add new DG File Manager
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DGFileManager"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/DGFileManager"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DGFileManager"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/DGFileManager"
+          description: ""
+      tags: [ "DGFileManager" ]
+
+    get:
+      operationId: getAllDGFileManager
+      summary: Get list Media File
+      description: Retrieves the Media File . Results can be paginated, filtered, searched, and sorted.
+      tags: [ "DGFileManager" ]
+      parameters:
+
+
+        - in: query
+          name: parentCode
+          description: class parent name
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A paged array of DG file manager
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGFileManager"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGFileManager"
+                type: array
+
+  "/file-managers/parent-type":
+    get:
+      operationId: getAllDGFileManagerByPkType
+      summary: Get list Media File
+      description: Retrieves the Media File . Results can be paginated, filtered, searched, and sorted.
+      tags: [ "DGFileManager" ]
+      parameters:
+
+
+        - in: query
+          name: parentCode
+          description: class parent name
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: pkType
+          description: pk type
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: A paged array of DG File manager
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGFileManager"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGFileManager"
+                type: array
+
+  "/file-managers/{fileId}":
+    delete:
+      operationId: deleteDGFileManager
+      summary: delete new DG File Manager
+      parameters:
+        - name: fileId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+      tags: [ "DGFileManager" ]
+    get:
+      operationId: getDGFileManager
+      summary: Get DG File Manager
+      parameters:
+        - in: path
+          name: fileId
+          description: File ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DGFileManager"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/DGFileManager"
+          description: ""
+
+      tags: [ "DGFileManager" ]
+  "/file-managers/delete-parrent":
+    delete:
+      operationId: deleteMediaFiles
+      summary: Delete dad id Media file by ID
+      parameters:
+
+        - in: query
+          name: parentCode
+          description: class parent name
+          required: true
+          schema:
+            type: string
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+      tags: [ "DGFileManager" ]
+
+  "/document-managers/company":
+    get:
+      operationId: getAllDGDocumentManagerCompany
+      summary: Get list Media File
+      description: Retrieves the Media File . Results can be paginated, filtered, searched, and sorted.
+      tags: [ "DGDocumentManager" ]
+      parameters:
+        - in: query
+          name: search
+          description: class parent name
+          schema:
+            type: string
+        - in: query
+          name: parentId
+          description: class parent name
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A paged array of DG file manager
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+
+  "/document-managers/company/personal":
+    get:
+      operationId: getAllDGDocumentManagerPersonalCompany
+      summary: Get list Media File
+      description: Retrieves the Media File . Results can be paginated, filtered, searched, and sorted.
+      tags: [ "DGDocumentManager" ]
+      parameters:
+        - in: query
+          name: search
+          description: class parent name
+          schema:
+            type: string
+        - in: query
+          name: parentId
+          description: class parent name
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A paged array of DG file manager
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+
+  "/document-managers/modules":
+    get:
+      operationId: getAllModules
+      summary: Get list Media File
+      description: Retrieves the Media File . Results can be paginated, filtered, searched, and sorted.
+      tags: [ "DGDocumentManager" ]
+      parameters:
+        - in: query
+          name: moduleId
+          description: class parent name
+          schema:
+            type: string
+      responses:
+        200:
+          description: A paged array of DG file manager
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Module"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Module"
+                type: array
+
+  "/document-managers/personal/attach":
+    get:
+      operationId: getAllDGDocumentManagerPersonalAttach
+      summary: Get list Media File
+      description: Retrieves the Media File . Results can be paginated, filtered, searched, and sorted.
+      tags: [ "DGDocumentManager" ]
+      parameters:
+        - in: query
+          name: search
+          description: class parent name
+          schema:
+            type: string
+        - in: query
+          name: parentId
+          description: class parent name
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: app
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A paged array of DG file manager
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+
+  "/document-managers/attach/project":
+    get:
+      operationId: getAllDGDocumentManagerAttachProject
+      summary: Get list Media File
+      description: Retrieves the Media File . Results can be paginated, filtered, searched, and sorted.
+      tags: [ "DGDocumentManager" ]
+      parameters:
+        - in: query
+          name: search
+          description: class parent name
+          schema:
+            type: string
+        - in: query
+          name: parentId
+          description: class parent name
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: pkCode
+          description: class parent name
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: A paged array of DG file manager
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+
+  "/document-managers/personal":
+    get:
+      operationId: getAllDGDocumentManagerPersonal
+      summary: Get list Media File
+      description: Retrieves the Media File . Results can be paginated, filtered, searched, and sorted.
+      tags: [ "DGDocumentManager" ]
+      parameters:
+        - in: query
+          name: search
+          description: class parent name
+          schema:
+            type: string
+        - in: query
+          name: parentId
+          description: class parent name
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A paged array of DG file manager
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+
+  "/document-managers/attach":
+    post:
+      operationId: postDGDocumentManagerAttach
+      summary: Add new DG File Manager
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DGAttachedDocumentManager"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/DGAttachedDocumentManager"
+      responses:
+        200:
+          content:
+            application/json: {}
+            application/xml: {}
+          description: ""
+      tags: [ "DGDocumentManager" ]
+
+  "/document-managers":
+    post:
+      operationId: postDGDocumentManager
+      summary: Add new DG File Manager
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DGDocumentManager"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/DGDocumentManager"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DGDocumentManager"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/DGDocumentManager"
+          description: ""
+      tags: [ "DGDocumentManager" ]
+
+    get:
+      operationId: getAllDGDocumentManager
+      summary: Get list Media File
+      description: Retrieves the Media File . Results can be paginated, filtered, searched, and sorted.
+      tags: [ "DGDocumentManager" ]
+      parameters:
+        - in: query
+          name: pkCode
+          description: class parent name
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: appId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: search
+          description: class parent name
+          schema:
+            type: string
+        - in: query
+          name: parentId
+          description: class parent name
+          schema:
+            type: integer
+            format: int64
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+      responses:
+        200:
+          description: A paged array of DG file manager
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DGDocumentManager"
+                type: array
+
+  "/document-managers/{id}/public":
+
+    put:
+      operationId: putDGDocumentManagerPublic
+      summary: Add new DG File Manager
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DGDocumentManager"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/DGDocumentManager"
+      responses:
+        204:
+          description: "Cập nhật"
+          content:
+            application/json: {}
+            application/xml: {}
+      tags: [ "DGDocumentManager" ]
+
+  "/document-managers/{id}":
+    delete:
+      operationId: deleteDGDocumentManager
+      summary: delete new DG File Manager
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+      tags: [ "DGDocumentManager" ]
+
+    get:
+      operationId: getDGDocumentManager
+      summary: get new DG File Manager
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: appId
+          in: query
+          schema:
+            type: string
+
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DGDocumentManager"
+
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/DGDocumentManager"
+          description: ""
+      tags: [ "DGDocumentManager" ]
+
+    put:
+      operationId: putDGDocumentManager
+      summary: Add new DG File Manager
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DGDocumentManager"
+
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/DGDocumentManager"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DGDocumentManager"
+
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/DGDocumentManager"
+          description: ""
+      tags: [ "DGDocumentManager" ]
+
+  "/document-managers/delete-parrent":
+    delete:
+      operationId: deleteDocuments
+      summary: Delete dad id Media file by ID
+      parameters:
+
+        - in: query
+          name: pkCode
+          description: class parent name
+          required: true
+          schema:
+            type: string
+
+      responses:
+        204:
+          content:
+            application/json: { }
+            application/xml: { }
+          description: ""
+      tags: [ "DGDocumentManager" ]

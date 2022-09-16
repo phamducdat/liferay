@@ -1,0 +1,4 @@
+config:
+  credentials_id: credDeployQA
+  host: 10.0.20.42
+  targetDir: /home/qa/app/dogoo-qa

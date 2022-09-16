@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN"
+        "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
+
+<service-builder dependency-injector="ds"
+                 auto-namespace-tables="true"
+                 package-path="com.dogoo.common.auditing.service">
+
+    <namespace>DG_AUDITING</namespace>
+
+    <entity local-service="true"
+            name="AuditingEntry"
+            table="DG_Auditing"
+            remote-service="false"
+            external-reference-code="true" uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="auditingId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="customerId" type="long"/>
+        <column name="creatorId" type="long"/>
+        <column name="creatorName" type="String"/>
+
+        <column name="name" type="String"/>
+        <column name="eventType" type="String"/>
+        <column name="message" type="String"/>
+        <column name="payload" type="String"/>
+        <column name="classPkId" type="long"/>
+        <column name="classPkName" type="String"/>
+        <column name="parentPkId" type="Long"/>
+        <column name="parentPkName" type="String"/>
+
+        <finder name="PK_Name" return-type="Collection">
+            <finder-column name="classPkId"/>
+            <finder-column name="classPkName"/>
+        </finder>
+
+        <finder name="Parent_PK_Name" return-type="Collection">
+            <finder-column name="parentPkId"/>
+            <finder-column name="parentPkName"/>
+        </finder>
+
+    </entity>
+</service-builder>

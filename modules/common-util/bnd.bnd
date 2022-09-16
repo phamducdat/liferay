@@ -1,0 +1,4 @@
+Bundle-Name: common-util
+Bundle-SymbolicName: com.dogoo.common.util
+Bundle-Version: 1.0.0
+Export-Package: com.dogoo.common.util.api

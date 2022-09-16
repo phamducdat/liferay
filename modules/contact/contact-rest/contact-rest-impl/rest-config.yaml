@@ -1,0 +1,9 @@
+apiDir: "../contact-rest-api/src/main/java"
+apiPackagePath: "com.dogoo.contact.rest"
+application:
+    baseURI: "/dogoo/contact-rest"
+    className: "ContactRestApplication"
+    name: "ContactRest"
+author: "khoa"
+clientDir: "../contact-rest-client/src/main/java"
+testDir: "../contact-rest-test/src/testIntegration/java"

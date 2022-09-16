@@ -1,0 +1,6 @@
+Bundle-Name: common-language-helper
+Bundle-SymbolicName: com.dogoo.common.language
+Bundle-Version: 1.0.0
+Export-Package: \
+    com.dogoo.common.language.api,\
+    com.dogoo.common.language.constant

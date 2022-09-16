@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.dogoo.common.auditing.service.model.AuditingEntry">
+		<field name="uuid" type="String" />
+		<field name="externalReferenceCode" type="String" />
+		<field name="auditingId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="customerId" type="long" />
+		<field name="creatorId" type="long" />
+		<field name="creatorName" type="String" />
+		<field name="name" type="String" />
+		<field name="eventType" type="String" />
+		<field name="message" type="String" />
+		<field name="payload" type="String" />
+		<field name="classPkId" type="long" />
+		<field name="classPkName" type="String" />
+		<field name="parentPkId" type="Long" />
+		<field name="parentPkName" type="String" />
+	</model>
+</model-hints>

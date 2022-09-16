@@ -1,0 +1,17 @@
+def versionPath = org.gradle.internal.os.OperatingSystem.current().isWindows() ?
+		projectDir.toString() + "\\VERSION" :
+		projectDir.toString() + "/VERSION"
+
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			group = 'com.dogoo.common.httpinvoker'
+			version = (new File(versionPath).exists() && new File(versionPath).text != "")  ? new File(versionPath).text : rootProject.ext.version
+		}
+	}
+}

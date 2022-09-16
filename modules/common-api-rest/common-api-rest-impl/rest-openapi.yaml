@@ -1,0 +1,112 @@
+components:
+    schemas:
+        EmployeeReference:
+            description: EmployeeReference model
+            properties:
+                id:
+                    format: int64
+                    readOnly: true
+                    type: integer
+                externalReferenceCode:
+                    readOnly: true
+                    type: string
+                name:
+                    type: string
+                type:
+                    enum: [ 'employee', 'department', 'position' , 'title']
+
+info:
+    description: "CommonApiRest REST API"
+    license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    title: "CommonApiRest"
+    version: v2.0
+openapi: 3.0.1
+
+paths:
+    "/employee-references":
+        get:
+            tags: ["EmployeeReference"]
+            description: Get DataItems by parentcode
+            operationId: getEmployeeReferencesPage
+            parameters:
+                - in: query
+                  name: filter
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+
+            responses:
+                200:
+                    description:
+                        "Get EmployeeReference"
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/EmployeeReference"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/EmployeeReference"
+                                type: array
+
+    "/employee-external-references":
+        get:
+            tags: ["EmployeeReference"]
+            description: Get DataItems by parentcode
+            operationId: getEmployeeExternalReferencesPage
+            parameters:
+                - in: query
+                  name: filter
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+
+            responses:
+                200:
+                    description:
+                        "Get EmployeeReference"
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/EmployeeReference"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/EmployeeReference"
+                                type: array

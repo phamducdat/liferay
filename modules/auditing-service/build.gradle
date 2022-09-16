@@ -1,0 +1,28 @@
+def versionPath = org.gradle.internal.os.OperatingSystem.current().isWindows() ?
+        projectDir.toString() + "\\VERSION" :
+        projectDir.toString() + "/VERSION"
+
+
+subprojects {
+    configurations.all {
+        resolutionStrategy.force 'com.liferay:com.liferay.portal.vulcan.api:9.3.1'
+    }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                group = 'com.dogoo.common.auditing.service'
+                version = (new File(versionPath).exists() && new File(versionPath).text != "")  ? new File(versionPath).text : rootProject.ext.version
+            }
+        }
+    }
+
+}
+tasks.withType(JavaCompile) {
+
+    // Generated classes using Jodd library are unable to be read when compiled against JDK 11
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

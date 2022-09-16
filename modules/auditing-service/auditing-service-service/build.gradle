@@ -1,0 +1,14 @@
+dependencies {
+	compile project(":modules:auditing-service:auditing-service-api")
+	compile(group: 'com.dogoo.common.indexer.helper', name: 'common-indexer-helper', version: '0.2.4')
+	compile(group: 'com.dogoo.common.util.api', name: 'common-util', version: '0.2.4')
+	compile(group: 'com.dogoo.hr.employee.service', name: 'employee-service-api', version: '0.2.3')
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api", version: "7.4.3.13-ga13"
+}
+
+buildService {
+	apiDir = "../auditing-service-api/src/main/java"
+}
+
+group = "com.dogoo.common.auditing.service"

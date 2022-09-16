@@ -1,0 +1,10 @@
+Bundle-Name: contact-service-api
+Bundle-SymbolicName: com.dogoo.contact.service.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.contact.service.exception,\
+	com.dogoo.contact.service.model,\
+	com.dogoo.contact.service.service,\
+	com.dogoo.contact.service.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../contact-service-service/service.xml

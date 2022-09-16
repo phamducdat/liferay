@@ -1,0 +1,9 @@
+apiDir: "../data-items-rest-api/src/main/java"
+apiPackagePath: "com.dogoo.dataitems.rest"
+application:
+    baseURI: "/dogoo/data-items-rest"
+    className: "DataItemsRestApplication"
+    name: "DataItemsRest"
+author: "khoa"
+clientDir: "../data-items-rest-client/src/main/java"
+testDir: "../data-items-rest-test/src/testIntegration/java"

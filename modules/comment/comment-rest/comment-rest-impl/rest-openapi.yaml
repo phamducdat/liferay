@@ -1,0 +1,468 @@
+components:
+    schemas:
+
+        Comment:
+            type: object
+            description: Comment
+            properties:
+                commentId:
+                    readOnly: true
+                    type: integer
+                    format: int64
+                externalReferenceCode:
+                    type: string
+                classPkId:
+                    type: integer
+                    format: int64
+                classPkName:
+                    type: string
+                creatorUserId:
+                    readOnly: true
+                    type: integer
+                    format: int64
+                creatorUserName:
+                    readOnly: true
+                    type: string
+                createDateNow:
+                    readOnly: true
+                    type: string
+                content:
+                    type: string
+                parentId:
+                    type: integer
+                    format: int64
+                mentions:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Mention'
+                    writeOnly: true
+
+        Mention:
+            properties:
+                id:
+                    type: integer
+                    format: int64
+                mentionChar:
+                    type: string
+
+
+        Emoticon:
+            description: Emoticon
+            properties:
+                emoticonId:
+                    readOnly: true
+                    type: integer
+                    format: int64
+                classPkId:
+                    type: integer
+                    format: int64
+                classPkName:
+                    type: string
+                cretorUserId:
+                    readOnly: true
+                    type: integer
+                    format: int64
+                emoji:
+                    type: string
+                creatorUserName:
+                    readOnly: true
+                    type: string
+        TreeComment:
+            type: object
+            description: Tree  Comment
+            properties:
+                commentId:
+                    type: integer
+                    format: int64
+                    readOnly: true
+                externalReferenceCode:
+                    readOnly: true
+                    type: string
+                classPkId:
+                    type: integer
+                    format: int64
+                    readOnly: true
+                classPkName:
+                    type: string
+                    readOnly: true
+                creatorUserId:
+                    type: integer
+                    format: int64
+                    readOnly: true
+                creatorUserName:
+                    type: string
+                    readOnly: true
+                createDateNow:
+                    type: string
+                    readOnly: true
+                content:
+                    type: string
+                    readOnly: true
+                parentId:
+                    type: integer
+                    format: int64
+                    readOnly: true
+                treeComments :
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Comment'
+
+info:
+    description: "Component Comment REST API"
+    license:
+        name: "Apache 2.0"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+    title: "Component CommentRest"
+    version: v2.0
+openapi: 3.0.1
+paths:
+
+    "/comments":
+        post:
+            operationId: postComponent
+            summary: Add new Component
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Comment"
+
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Comment"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Comment"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Comment"
+                    description: " Create comment  "
+            tags: [ "Comment" ]
+
+    "/comments/{commentId}":
+        delete:
+            operationId: deleteComments
+            summary: delete Comment
+            parameters:
+                - name: commentId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+
+            responses:
+                204:
+                    content:
+                        application/json: { }
+                        application/xml: { }
+                    description: " delete comment by comment id  "
+            tags: [ "Comment" ]
+
+        put:
+            operationId: putComment
+            summary: update Comment
+            description: update comment by commentId
+            parameters:
+
+                - in: path
+                  name: commentId
+                  description: Id of the Comment
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Comment"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Comment"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Comment"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Comment"
+                    description: " update comment  "
+            tags: [ "Comment" ]
+        get:
+            operationId: getComment
+            summary: get Comment
+            description: get comment by commentId
+            parameters:
+
+                - in: path
+                  name: commentId
+                  description: Id of the comment
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Comment"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Comment"
+                    description: " get comment  "
+            tags: [ "Comment" ]
+
+    "/parents":
+        delete:
+            operationId: deleteCommentsDeletes
+            summary: Delete classParent by ID and Name
+            parameters:
+                - in: query
+                  name: classPkName
+                  description: dad name
+                  required: true
+                  schema:
+                      type: string
+
+                - name: classPkId
+                  in: query
+                  required: true
+                  schema:
+                      type: array
+                      items:
+                          type : integer
+                          format: int64
+
+            responses:
+                204:
+                    content:
+                        application/json: { }
+                        application/xml: { }
+                    description: " delete comment by parent  "
+            tags: [ "Comment" ]
+
+    "/tree-comments":
+        get:
+            operationId: getAllTreeComment
+            summary: Get list Tree Comment
+            description: Retrieves the Comment . Results can be paginated, filtered, searched, and sorted.
+            tags: [ "TreeComment" ]
+            parameters:
+
+                - in: query
+                  name: classPkId
+                  description: Id of the module used
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                - in: query
+                  name: classPkName
+                  description: Name of the module used
+                  required: true
+                  schema:
+                      type: string
+                - in: query
+                  name: pageSize
+                  description: number of elements of parent comment
+                  schema:
+                      type: integer
+            responses:
+                200:
+                    description: " get tree comment  "
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/TreeComment"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/TreeComment"
+                                type: array
+
+    "/emoticons":
+        post:
+            operationId: postEmoticon
+            summary: Add new Emoticon
+
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Emoticon"
+
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Emoticon"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Emoticon"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Emoticon"
+                    description: " create emoticon "
+            tags: [ "Emoticon" ]
+
+        get:
+            operationId: getEmoticons
+            summary: Get List Emoticon
+            description: Retrieves the Comment . Results can be paginated, filtered, searched, and sorted.
+            parameters:
+
+                - in: query
+                  name: classPkId
+                  description: id of parent
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                - in: query
+                  name: classPkName
+                  description: name of parent
+                  required: true
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Emoticon"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Emoticon"
+                                type: array
+                    description: " get emoticon by comment id  "
+            tags: [ "Emoticon" ]
+    "/emoticons/{emoticonId}":
+        put:
+            operationId: putEmoticon
+            summary: update Emoticon
+            description: update Emoticon by emoticon Id
+            parameters:
+
+                - in: path
+                  name: emoticonId
+                  description: Id of the Emoticon
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Emoticon"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Emoticon"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Emoticon"
+
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Emoticon"
+
+                    description: ""
+            tags: [ "Emoticon" ]
+        delete:
+            operationId: deleteEmoticon
+            summary: delete new Emoticon
+            parameters:
+                - name: emoticonId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+
+            responses:
+                204:
+                    content:
+                        application/json: { }
+                        application/xml: { }
+                    description: ""
+            tags: [ "Emoticon" ]
+        get:
+            operationId: getEmoticon
+            summary: get Emoticon
+            parameters:
+                - name: emoticonId
+                  in: path
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Emoticon"
+
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Emoticon"
+
+                    description: ""
+            tags: [ "Emoticon" ]
+
+    "/user-comments":
+        get:
+            operationId: getEmoticonByUser
+            summary: Get List Emoticon by User
+            description: get emoticon by user Id
+            parameters:
+
+                - in: query
+                  name: classPkId
+                  description: id of parent
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+                - in: query
+                  name: classPkName
+                  description: name of parent
+                  required: true
+                  schema:
+                      type: string
+                - in: query
+                  name: creatorUserId
+                  description: Id of the user
+                  required: true
+                  schema:
+                      type: integer
+                      format: int64
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Emoticon"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Emoticon"
+                    description: " get emoticon comments by user "
+            tags: [ "Emoticon" ]
+            

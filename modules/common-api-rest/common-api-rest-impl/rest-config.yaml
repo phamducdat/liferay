@@ -1,0 +1,9 @@
+apiDir: "../common-api-rest-api/src/main/java"
+apiPackagePath: "com.dogoo.common.api.rest"
+application:
+    baseURI: "/dogoo/common-api-rest"
+    className: "CommonApiRestApplication"
+    name: "CommonApiRest"
+author: "khoa"
+clientDir: "../common-api-rest-client/src/main/java"
+testDir: "../common-api-rest-test/src/testIntegration/java"

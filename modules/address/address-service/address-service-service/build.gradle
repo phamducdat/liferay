@@ -1,0 +1,13 @@
+dependencies {
+	compile project(":modules:address:address-service:address-service-api")
+
+	compile project(":modules:common-indexer-helper")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+buildService {
+	apiDir = "../address-service-api/src/main/java"
+}
+
+group = "com.dogoo.address.service"

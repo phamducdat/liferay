@@ -1,0 +1,150 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN"
+        "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
+
+<service-builder
+        dependency-injector="ds"
+        package-path="com.dogoo.department.service"
+        auto-namespace-tables="false"
+>
+    <namespace>DG_DEPARTMENT</namespace>
+
+
+    <entity local-service="true"
+            name="DepartmentEntry"
+            table="DG_DepartmentEntry"
+            remote-service="false"
+            external-reference-code="true"
+            uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="departmentId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="modifiedDate" type="Date"/>
+
+        <column name="creatorId" type="long"/>
+        <column name="customerId" type="long"/>
+
+        <!-- Other fields -->
+
+        <column name="name" type="String"/>
+        <column name="code" type="String"/>
+        <column name="parentId" type="long"/>
+        <column name="order" type="Integer"/>
+        <column name="type" type="String"/>
+        <column name="businessId" type="long"/>
+        <column name="tax" type="String"/>
+        <column name="address" type="String"/>
+        <column name="headOffice" type="String"/>
+        <column name="alias" type="String"/>
+        <column name="description" type="String"/>
+        <column name="status" type="String"/>
+        <column name="statusDate" type="Date"/>
+
+        <!-- Order -->
+
+        <order by="asc">
+            <order-column name="name"/>
+        </order>
+
+        <!-- Finder methods -->
+
+        <finder name="C_" return-type="Collection">
+            <finder-column name="customerId"/>
+        </finder>
+
+        <finder name="C_N" return-type="DepartmentEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="name"/>
+        </finder>
+
+        <finder name="C_N_P" return-type="DepartmentEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="name"/>
+            <finder-column name="parentId"/>
+        </finder>
+
+
+        <finder name="C_C" return-type="DepartmentEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="code"/>
+        </finder>
+
+        <finder name="C_T" return-type="DepartmentEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="tax"/>
+        </finder>
+
+        <finder name="C_P" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="parentId"/>
+        </finder>
+
+        <finder name="C_B" return-type="Collection">
+            <finder-column name="customerId"/>
+            <finder-column name="businessId"/>
+        </finder>
+
+        <!-- References -->
+
+    </entity>
+
+
+    <entity local-service="true"
+            name="BusinessEntry"
+            table="DG_BusinessEntry"
+            remote-service="false"
+            external-reference-code="true"
+            uuid="true">
+
+        <!-- PK fields -->
+
+        <column name="businessId" primary="true" type="long"/>
+
+        <!-- Group instance -->
+
+        <column name="groupId" type="long"/>
+
+        <!-- Audit fields -->
+
+        <column name="companyId" type="long"/>
+        <column name="userId" type="long"/>
+        <column name="userName" type="String"/>
+        <column name="createDate" type="Date"/>
+        <column name="modifiedDate" type="Date"/>
+
+        <column name="creatorId" type="long"/>
+        <column name="customerId" type="long"/>
+
+        <!-- Other fields -->
+
+        <column name="name" type="String"/>
+        <!-- Order -->
+
+        <order by="asc">
+            <order-column name="name"/>
+        </order>
+
+        <finder name="C_N" return-type="BusinessEntry">
+            <finder-column name="customerId"/>
+            <finder-column name="name"/>
+        </finder>
+
+        <!-- Finder methods -->
+
+
+        <!-- References -->
+
+    </entity>
+</service-builder>

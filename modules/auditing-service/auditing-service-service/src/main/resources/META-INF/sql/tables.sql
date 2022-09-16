@@ -1,0 +1,21 @@
+create table DG_Auditing (
+	uuid_ VARCHAR(75) null,
+	externalReferenceCode VARCHAR(75) null,
+	auditingId LONG not null primary key,
+	groupId LONG,
+	companyId LONG,
+	userId LONG,
+	userName VARCHAR(75) null,
+	createDate DATE null,
+	customerId LONG,
+	creatorId LONG,
+	creatorName VARCHAR(75) null,
+	name VARCHAR(75) null,
+	eventType VARCHAR(75) null,
+	message VARCHAR(75) null,
+	payload VARCHAR(75) null,
+	classPkId LONG,
+	classPkName VARCHAR(75) null,
+	parentPkId LONG,
+	parentPkName VARCHAR(75) null
+);

@@ -1,0 +1,9 @@
+apiDir: "../comment-rest-api/src/main/java"
+apiPackagePath: "com.dogoo.common.comment.rest"
+application:
+    baseURI: "/dogoo/comment-rest"
+    className: "CommentRestApplication"
+    name: "CommentRest"
+author: "khoa"
+clientDir: "../comment-rest-client/src/main/java"
+testDir: "../comment-rest-test/src/testIntegration/java"

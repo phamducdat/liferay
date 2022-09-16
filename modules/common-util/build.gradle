@@ -1,0 +1,13 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			group = 'com.dogoo.common.util.api'
+			version = rootProject.ext.version
+		}
+	}
+}

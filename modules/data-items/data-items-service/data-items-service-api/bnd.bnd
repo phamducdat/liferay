@@ -1,0 +1,11 @@
+Bundle-Name: data-items-service-api
+Bundle-SymbolicName: com.dogoo.dataitems.service.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.dataitems.service.constant,\
+	com.dogoo.dataitems.service.exception,\
+	com.dogoo.dataitems.service.model,\
+	com.dogoo.dataitems.service.service,\
+	com.dogoo.dataitems.service.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../data-items-service-service/service.xml

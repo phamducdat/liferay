@@ -1,0 +1,40 @@
+import org.gradle.internal.os.OperatingSystem
+
+buildscript {
+	def homePath = System.properties['user.home'].toString()
+	homePath += OperatingSystem.current().isWindows() ?
+			"\\.gradle\\gradle.properties" : "/.gradle/gradle.properties"
+
+	Properties props = new Properties()
+	file(homePath).withInputStream { props.load(it) }
+
+	dependencies {
+		classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4+"
+		classpath group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "5.2.0"
+		classpath(group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "3.4.17") {
+			exclude group: "biz.aQute.bnd", module: "biz.aQute.bnd"
+		}
+		classpath group: "net.saliman", name: "gradle-properties-plugin", version: "1.4.6"
+	}
+
+	repositories {
+		maven {
+			url "https://repository-cdn.liferay.com/nexus/content/groups/public"
+		}
+
+		maven {
+			url "https://repository.liferay.com/nexus/content/groups/public"
+		}
+		maven {
+			url = props.getProperty("artifactory_maven").toString()
+			credentials {
+				username = props.getProperty("artifactory_user").toString()
+				password = props.getProperty("artifactory_password").toString()
+			}
+		}
+	}
+}
+
+apply plugin: "net.saliman.properties"
+
+apply plugin: "com.liferay.workspace"

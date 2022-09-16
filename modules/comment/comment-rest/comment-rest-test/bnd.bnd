@@ -1,0 +1,4 @@
+Bundle-Name: comment-rest-test
+Bundle-SymbolicName: com.dogoo.common.comment.rest.test
+Bundle-Version: 1.0.0
+-includeresource: com.dogoo.common.comment.rest.client.jar=../comment-rest-client/build/libs/com.dogoo.common.comment.rest.client-1.0.0.jar;lib:=true

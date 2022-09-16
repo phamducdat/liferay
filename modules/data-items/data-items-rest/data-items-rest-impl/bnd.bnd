@@ -1,0 +1,3 @@
+Bundle-Name: data-items-rest-impl
+Bundle-SymbolicName: com.dogoo.dataitems.rest.impl
+Bundle-Version: 1.0.0

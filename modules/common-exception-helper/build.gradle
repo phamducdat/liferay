@@ -1,0 +1,17 @@
+dependencies {
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+
+	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			group = 'com.dogoo.common.exception.helper'
+			version = rootProject.ext.version
+		}
+	}
+}

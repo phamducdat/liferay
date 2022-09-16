@@ -1,0 +1,6 @@
+Bundle-Name: data-items-rest-api
+Bundle-SymbolicName: com.dogoo.dataitems.rest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.dataitems.rest.dto.v2_0,\
+	com.dogoo.dataitems.rest.resource.v2_0

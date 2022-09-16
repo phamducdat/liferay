@@ -1,0 +1,9 @@
+apiDir: "../department-rest-api/src/main/java"
+apiPackagePath: "com.dogoo.department.rest"
+application:
+    baseURI: "/dogoo/department-rest"
+    className: "DepartmentRestApplication"
+    name: "DepartmentRest"
+author: "khoa"
+clientDir: "../department-rest-client/src/main/java"
+testDir: "../department-rest-test/src/testIntegration/java"

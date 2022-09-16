@@ -1,0 +1,165 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
+
+<service-builder
+		dependency-injector="ds"
+		package-path="com.dogoo.contact.service"
+		auto-namespace-tables="false"
+>
+	<namespace>CNT</namespace>
+
+	<entity
+			local-service="true"
+			name="ContactEntry"
+			table="DG_ContactEntry"
+			remote-service="false"
+			external-reference-code="true"
+			uuid="true"
+	>
+
+		<!-- PK fields -->
+
+		<column name="contactId" primary="true" type="long"/>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<column name="creatorId" type="long" />
+		<column name="customerId" type="long" />
+
+		<!-- Other fields -->
+
+		<column name="facebook" type="String"/>
+		<column name="twitter" type="String"/>
+		<column name="linkedin" type="String"/>
+
+		<order by="asc">
+			<order-column name="facebook" />
+		</order>
+
+
+	</entity>
+
+	<entity
+			local-service="true"
+			name="EmailEntry"
+			table="DG_EmailEntry"
+			remote-service="false"
+			external-reference-code="true"
+			uuid="true"
+	>
+
+		<!-- PK fields -->
+
+		<column name="emailId" primary="true" type="long"/>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<column name="creatorId" type="long" />
+		<column name="customerId" type="long" />
+
+		<!-- Other fields -->
+
+		<column name="contactId" type="long"/>
+		<column name="emailAddress" type="String"/>
+		<column name="isDefaulted" type="boolean"/>
+		<column name="description" type="String"/>
+
+
+		<finder name="C_C" return-type="Collection">
+			<finder-column name="customerId" />
+			<finder-column name="contactId"/>
+		</finder>
+
+		<finder name="C_E" return-type="EmailEntry">
+			<finder-column name="customerId" />
+			<finder-column name="emailAddress"/>
+		</finder>
+
+		<finder name="C_I" return-type="EmailEntry">
+			<finder-column name="customerId" />
+			<finder-column name="isDefaulted"/>
+		</finder>
+	</entity>
+
+	<entity
+			local-service="true"
+			name="PhoneEntry"
+			table="DG_PhoneEntry"
+			remote-service="false"
+			external-reference-code="true"
+			uuid="true"
+	>
+
+		<!-- PK fields -->
+
+		<column name="phoneId" primary="true" type="long"/>
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<column name="creatorId" type="long" />
+		<column name="customerId" type="long" />
+
+		<!-- Other fields -->
+
+		<column name="contactId" type="long"/>
+		<column name="number" type="String"/>
+		<column name="isDefaulted" type="boolean"/>
+		<column name="description" type="String"/>
+
+
+		<finder name="C_C" return-type="Collection">
+			<finder-column name="customerId" />
+			<finder-column name="contactId"/>
+		</finder>
+
+
+		<finder name="C_N" return-type="PhoneEntry">
+			<finder-column name="customerId" />
+			<finder-column name="number"/>
+		</finder>
+
+
+		<finder name="C_I" return-type="PhoneEntry">
+			<finder-column name="customerId" />
+			<finder-column name="isDefaulted"/>
+		</finder>
+
+	</entity>
+
+	<exceptions>
+		<exception>EmailAddressDuplicate</exception>
+		<exception>PhoneNumberDuplicate</exception>
+		<exception>FieldRequired</exception>
+	</exceptions>
+
+</service-builder>

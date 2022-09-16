@@ -1,0 +1,12 @@
+Bundle-Name: files-manager-service-api
+Bundle-SymbolicName: com.dogoo.common.files.manager.service.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.dogoo.common.files.manager.service.exception,\
+	com.dogoo.common.files.manager.service.model,\
+	com.dogoo.common.files.manager.service.service,\
+	com.dogoo.common.files.manager.service.service.persistence,\
+    com.dogoo.common.files.manager.service.mapper.model,\
+    com.dogoo.common.files.manager.service.retriver
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../files-manager-service-service/service.xml

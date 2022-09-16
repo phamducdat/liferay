@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.4.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_4_0.dtd">
+
+<service-builder dependency-injector="ds"
+				 auto-namespace-tables="false"
+				 package-path="com.dogoo.common.comment.service">
+
+	<namespace>DG_COMMENT</namespace>
+
+	<entity local-service="true"
+			name="CommentEntry"
+			table="DG_CommentEntry"
+			remote-service="false"
+			external-reference-code="true"
+			uuid="true"
+	>
+
+		<!-- PK fields -->
+
+		<column name="commentId" primary="true" type="long" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="customerId" type="long" />
+		<column name="creatorId" type="long" />
+
+
+		<!-- Other fields -->
+
+		<column name="classPkId" type="long" />
+		<column name="classPkName" type="String" />
+		<column name="creatorFullName" type="String" />
+		<column name="content" type="String" />
+		<column name="parentId" type="long" />
+
+		<!-- Finder methods -->
+
+		<finder name="C_C_C" return-type="Collection">
+			<finder-column name="customerId"/>
+			<finder-column name="classPkId"/>
+			<finder-column name="classPkName"/>
+		</finder>
+
+		<finder name="C_C_C_P" return-type="Collection">
+			<finder-column name="customerId"/>
+			<finder-column name="classPkId"/>
+			<finder-column name="classPkName"/>
+			<finder-column name="parentId"/>
+		</finder>
+
+		<finder name="P_" return-type="Collection">
+			<finder-column name="parentId"/>
+		</finder>
+
+	</entity>
+
+	<entity
+			local-service="true"
+			name="EmoticonEntry"
+			table="DG_EmoticonEntry"
+			remote-service="false"
+			uuid="true"
+			external-reference-code="true"
+	>
+
+		<!-- PK fields -->
+
+		<column name="emoticonId" primary="true" type="long" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="customerId" type="long" />
+		<column name="creatorId" type="long" />
+
+		<!-- Other fields -->
+
+		<column name="classPkId" type="long" />
+		<column name="classPkName" type="String" />
+		<column name="creatorFullName" type="String" />
+		<column name="emoji" type="String" />
+
+		<finder name="C_C_C" return-type="Collection">
+			<finder-column name="customerId"/>
+			<finder-column name="classPkId"/>
+			<finder-column name="classPkName"/>
+		</finder>
+
+		<finder name="C_C_C_C" return-type="EmoticonEntry">
+			<finder-column name="customerId"/>
+			<finder-column name="classPkId"/>
+			<finder-column name="classPkName"/>
+			<finder-column name="creatorId"/>
+		</finder>
+
+	</entity>
+
+</service-builder>

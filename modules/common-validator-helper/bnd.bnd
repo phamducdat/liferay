@@ -1,0 +1,4 @@
+Bundle-Name: common-validator-helper
+Bundle-SymbolicName: com.dogoo.common.validator.api
+Bundle-Version: 1.0.0
+Export-Package: com.dogoo.common.validator.api

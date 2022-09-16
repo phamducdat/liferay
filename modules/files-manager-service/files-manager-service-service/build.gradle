@@ -1,0 +1,20 @@
+dependencies {
+	compile project(":modules:files-manager-service:files-manager-service-api")
+	compile project(":modules:common-file-helper")
+	compile project(":modules:common-token-helper")
+	compile project(":modules:common-util")
+	compile(group: 'com.dogoo.employee.career.service', name: 'employee-career-service-api', version: '0.2.7')
+	compile project(":modules:auditing-service:auditing-service-api")
+
+	compile(group: 'com.dogoo.core.task.service', name: 'task-service-api', version: '0.2.4')
+	compile(group: 'com.dogoo.core.project.service', name: 'project-service-api', version: '0.2.4')
+
+	compile(group: 'com.dogoo.common.indexer.helper', name: 'common-indexer-helper', version: '0.2.4')
+	compileOnly group: "com.liferay.portal", name: "release.portal.api", version: "7.4.3.13-ga13"
+}
+
+buildService {
+	apiDir = "../files-manager-service-api/src/main/java"
+}
+
+group = "com.dogoo.common.files.manager.service"
