@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:lab-service-builder:lab-service-builder-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+buildService {
+	apiDir = "../lab-service-builder-api/src/main/java"
+}
+
+group = "com.datpd.lab"

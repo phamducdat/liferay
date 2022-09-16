@@ -1,0 +1,10 @@
+Bundle-Name: lab-service-builder-api
+Bundle-SymbolicName: com.datpd.lab.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.datpd.lab.exception,\
+	com.datpd.lab.model,\
+	com.datpd.lab.service,\
+	com.datpd.lab.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../lab-service-builder-service/service.xml

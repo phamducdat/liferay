@@ -1,0 +1,6 @@
+Bundle-Name: lab-service-builder-service
+Bundle-SymbolicName: com.datpd.lab.service
+Bundle-Version: 1.0.0
+Liferay-Require-SchemaVersion: 1.0.0
+Liferay-Service: true
+-dsannotations-options: inherit
