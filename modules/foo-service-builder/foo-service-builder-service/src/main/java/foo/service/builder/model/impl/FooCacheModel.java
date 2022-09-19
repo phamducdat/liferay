@@ -61,7 +61,7 @@ public class FooCacheModel implements CacheModel<Foo>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -89,6 +89,8 @@ public class FooCacheModel implements CacheModel<Foo>, Externalizable {
 		sb.append(field4);
 		sb.append(", field5=");
 		sb.append(field5);
+		sb.append(", field6=");
+		sb.append(field6);
 		sb.append("}");
 
 		return sb.toString();
@@ -155,6 +157,13 @@ public class FooCacheModel implements CacheModel<Foo>, Externalizable {
 			fooImpl.setField5(field5);
 		}
 
+		if (field6 == null) {
+			fooImpl.setField6("");
+		}
+		else {
+			fooImpl.setField6(field6);
+		}
+
 		fooImpl.resetOriginalValues();
 
 		return fooImpl;
@@ -181,6 +190,7 @@ public class FooCacheModel implements CacheModel<Foo>, Externalizable {
 		field3 = objectInput.readInt();
 		field4 = objectInput.readLong();
 		field5 = objectInput.readUTF();
+		field6 = objectInput.readUTF();
 	}
 
 	@Override
@@ -228,6 +238,13 @@ public class FooCacheModel implements CacheModel<Foo>, Externalizable {
 		else {
 			objectOutput.writeUTF(field5);
 		}
+
+		if (field6 == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(field6);
+		}
 	}
 
 	public String uuid;
@@ -243,5 +260,6 @@ public class FooCacheModel implements CacheModel<Foo>, Externalizable {
 	public int field3;
 	public long field4;
 	public String field5;
+	public String field6;
 
 }

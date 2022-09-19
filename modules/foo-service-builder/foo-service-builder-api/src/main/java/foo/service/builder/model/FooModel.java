@@ -282,6 +282,21 @@ public interface FooModel
 	 */
 	public void setField5(String field5);
 
+	/**
+	 * Returns the field6 of this foo.
+	 *
+	 * @return the field6 of this foo
+	 */
+	@AutoEscape
+	public String getField6();
+
+	/**
+	 * Sets the field6 of this foo.
+	 *
+	 * @param field6 the field6 of this foo
+	 */
+	public void setField6(String field6);
+
 	@Override
 	public Foo cloneWithOriginalValues();
 

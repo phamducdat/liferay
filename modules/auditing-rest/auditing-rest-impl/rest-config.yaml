@@ -1,9 +1,0 @@
-apiDir: "../auditing-rest-api/src/main/java"
-apiPackagePath: "com.dogoo.common.auditing.rest"
-application:
-    baseURI: "/dogoo/auditing-rest"
-    className: "AuditingRestApplication"
-    name: "AuditingRest"
-author: "khoa"
-clientDir: "../auditing-rest-client/src/main/java"
-testDir: "../auditing-rest-test/src/testIntegration/java"

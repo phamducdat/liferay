@@ -58,6 +58,8 @@ public class FooTable extends BaseTable<FooTable> {
 		"field4", Date.class, Types.TIMESTAMP, Column.FLAG_DEFAULT);
 	public final Column<FooTable, String> field5 = createColumn(
 		"field5", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
+	public final Column<FooTable, String> field6 = createColumn(
+		"field6", String.class, Types.VARCHAR, Column.FLAG_DEFAULT);
 
 	private FooTable() {
 		super("FOO_Foo", FooTable::new);

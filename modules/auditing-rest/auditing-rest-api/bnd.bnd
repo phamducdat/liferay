@@ -1,6 +1,0 @@
-Bundle-Name: auditing-rest-api
-Bundle-SymbolicName: com.dogoo.common.auditing.rest.api
-Bundle-Version: 1.0.0
-Export-Package:\
-	com.dogoo.common.auditing.rest.dto.v2_0,\
-	com.dogoo.common.auditing.rest.resource.v2_0

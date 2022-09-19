@@ -11,5 +11,6 @@ create table FOO_Foo (
 	field2 BOOLEAN,
 	field3 INTEGER,
 	field4 DATE null,
-	field5 VARCHAR(75) null
+	field5 VARCHAR(75) null,
+	field6 VARCHAR(75) null
 );

@@ -55,6 +55,7 @@ public class FooWrapper
 		attributes.put("field3", getField3());
 		attributes.put("field4", getField4());
 		attributes.put("field5", getField5());
+		attributes.put("field6", getField6());
 
 		return attributes;
 	}
@@ -138,6 +139,12 @@ public class FooWrapper
 		if (field5 != null) {
 			setField5(field5);
 		}
+
+		String field6 = (String)attributes.get("field6");
+
+		if (field6 != null) {
+			setField6(field6);
+		}
 	}
 
 	@Override
@@ -213,6 +220,16 @@ public class FooWrapper
 	@Override
 	public String getField5() {
 		return model.getField5();
+	}
+
+	/**
+	 * Returns the field6 of this foo.
+	 *
+	 * @return the field6 of this foo
+	 */
+	@Override
+	public String getField6() {
+		return model.getField6();
 	}
 
 	/**
@@ -378,6 +395,16 @@ public class FooWrapper
 	@Override
 	public void setField5(String field5) {
 		model.setField5(field5);
+	}
+
+	/**
+	 * Sets the field6 of this foo.
+	 *
+	 * @param field6 the field6 of this foo
+	 */
+	@Override
+	public void setField6(String field6) {
+		model.setField6(field6);
 	}
 
 	/**
