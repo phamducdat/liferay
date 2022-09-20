@@ -347,8 +347,6 @@ nmodules/guestbook/guestbook-service/src/main/java/com/liferay/docs/guestbook/mo
 pmodules/guestbook/guestbook-service/src/main/java/com/liferay/docs/guestbook/model/impl/GuestbookCacheModel.java,e/7/e7c038bf1abc33196426dabb2f2ea69a186aaab3
 š
 jmodules/guestbook/guestbook-service/src/main/java/com/liferay/docs/guestbook/model/impl/GuestbookImpl.java,9/9/999111b2c93a0684c00300c929b8a97a92603172
-›
-kmodules/guestbook/guestbook-api/src/main/java/com/liferay/docs/guestbook/service/GuestbookLocalService.java,f/1/f1893c3a2d4988a5497c5d1265a83649a42de693
 ¬
 |modules/guestbook/guestbook-service/src/main/java/com/liferay/docs/guestbook/service/base/GuestbookLocalServiceBaseImpl.java,f/d/fd0103edab693d48169ab4623000ad6249d7e8c6
 Ÿ
@@ -389,8 +387,6 @@ lmodules/guestbook/guestbook-api/src/main/java/com/liferay/docs/guestbook/except
 pmodules/guestbook/guestbook-api/src/main/java/com/liferay/docs/guestbook/exception/NoSuchGuestbookException.java,b/2/b26addaa3c4afa65819a01e9d1d78b821e8dfca7
 _
 /modules/guestbook/guestbook-service/service.xml,4/d/4d248c230119527e33bfe4e6288960b8e0270a13
-¨
-xmodules/guestbook/guestbook-service/src/main/java/com/liferay/docs/guestbook/service/impl/GuestbookLocalServiceImpl.java,3/2/327159f13f3dd80b988b48aca4b8a08ab1543f3b
 o
 ?modules/files-manager-service/files-manager-service-api/bnd.bnd,1/7/1724dfc36ceff96e3dd2e19d5128ad4178052ed9
 ¢
