@@ -60,7 +60,7 @@ public class GuestbookAssetRenderer extends BaseJSPAssetRenderer<Guestbook> {
     public PortletURL getURLEdit(LiferayPortletRequest liferayPortletRequest,
                                  LiferayPortletResponse liferayPortletResponse) throws Exception {
         PortletURL portletURL = liferayPortletResponse.createLiferayPortletURL(
-                getControlPanelPlid(liferayPortletRequest), "com_liferay_docs_guestbook_portlet_GuestbookPortlet",
+                getControlPanelPlid(liferayPortletRequest), "com_liferay_docs_guestbook_GuestbookWebPortlet",
                 PortletRequest.RENDER_PHASE);
         portletURL.setParameter("mvcRenderCommandName", "/guestbookwebportlet/edit_guestbook");
         portletURL.setParameter("guestbookId", String.valueOf(_guestbook.getGuestbookId()));
@@ -74,15 +74,15 @@ public class GuestbookAssetRenderer extends BaseJSPAssetRenderer<Guestbook> {
         try {
             long plid = PortalUtil.getPlidFromPortletId(
                     _guestbook.getGroupId(),
-                    "com_liferay_docs_guestbook_portlet_GuestbookPortlet");
+                    "com_liferay_docs_guestbook_GuestbookWebPortlet");
 
             PortletURL portletURL;
             if (plid == LayoutConstants.DEFAULT_PLID) {
                 portletURL = liferayPortletResponse.createLiferayPortletURL(getControlPanelPlid(liferayPortletRequest),
-                        "com_liferay_docs_guestbook_portlet_GuestbookPortlet", PortletRequest.RENDER_PHASE);
+                        "com_liferay_docs_guestbook_GuestbookWebPortlet", PortletRequest.RENDER_PHASE);
             } else {
                 portletURL = PortletURLFactoryUtil.create(liferayPortletRequest,
-                        "com_liferay_docs_guestbook_portlet_GuestbookPortlet", plid, PortletRequest.RENDER_PHASE);
+                        "com_liferay_docs_guestbook_GuestbookWebPortlet", plid, PortletRequest.RENDER_PHASE);
             }
 
             portletURL.setParameter("mvcRenderCommandName", "/guestbookwebportlet/view");

@@ -5,7 +5,7 @@
     <model-resource>
         <model-name>com.liferay.docs.guestbook</model-name>
         <portlet-ref>
-            <portlet-name>com_liferay_docs_guestbook_portlet_GuestbookPortlet</portlet-name>
+            <portlet-name>com_liferay_docs_guestbook_GuestbookWebPortlet</portlet-name>
             <portlet-name>com_liferay_docs_guestbook_portlet_GuestbookAdminPortlet</portlet-name>
         </portlet-ref>
         <root>true</root>
@@ -31,7 +31,7 @@
     <model-resource>
         <model-name>com.liferay.docs.guestbook.model.Guestbook</model-name>
         <portlet-ref>
-            <portlet-name>com_liferay_docs_guestbook_portlet_GuestbookPortlet</portlet-name>
+            <portlet-name>com_liferay_docs_guestbook_GuestbookWebPortlet</portlet-name>
             <portlet-name>com_liferay_docs_guestbook_portlet_GuestbookAdminPortlet</portlet-name>
         </portlet-ref>
         <permissions>
@@ -58,7 +58,7 @@
     <model-resource>
         <model-name>com.liferay.docs.guestbook.model.Entry</model-name>
         <portlet-ref>
-            <portlet-name>com_liferay_docs_guestbook_portlet_GuestbookPortlet</portlet-name>
+            <portlet-name>com_liferay_docs_guestbook_GuestbookWebPortlet</portlet-name>
         </portlet-ref>
         <permissions>
             <supports>
