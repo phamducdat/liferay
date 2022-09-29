@@ -26,29 +26,63 @@ import java.util.Locale;
 
 @Component(immediate = true, service = Indexer.class)
 public class EntryIndexer extends BaseIndexer<Entry> {
-
     public static final String CLASS_NAME = Entry.class.getName();
 
-
     public EntryIndexer() {
-        setDefaultSelectedFieldNames(
-                Field.COMPANY_ID, Field.ENTRY_CLASS_PK, Field.ENTRY_CLASS_PK,
-                Field.UID, Field.SCOPE_GROUP_ID, Field.GROUP_ID
-        );
 
+        setDefaultSelectedFieldNames(
+                Field.COMPANY_ID, Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK,
+                Field.UID, Field.SCOPE_GROUP_ID, Field.GROUP_ID);
         setDefaultSelectedLocalizedFieldNames(Field.TITLE, Field.CONTENT);
         setFilterSearch(true);
         setPermissionAware(true);
     }
 
     @Override
-    protected void doDelete(Entry object) throws Exception {
+    public String getClassName() {
 
-        deleteDocument(object.getCompanyId(), object.getEntryId());
+        return CLASS_NAME;
     }
 
     @Override
-    protected Document doGetDocument(Entry entry) throws Exception {
+    public boolean hasPermission(
+            PermissionChecker permissionChecker, String entryClassName,
+            long entryClassPK, String actionId)
+            throws Exception {
+
+        return EntryPermission.contains(
+                permissionChecker, entryClassPK, ActionKeys.VIEW);
+    }
+
+    @Override
+    public void postProcessContextBooleanFilter(
+            BooleanFilter contextBooleanFilter, SearchContext searchContext)
+            throws Exception {
+
+        addStatus(contextBooleanFilter, searchContext);
+    }
+
+    @Override
+    public void postProcessSearchQuery(
+            BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter,
+            SearchContext searchContext)
+            throws Exception {
+
+        addSearchLocalizedTerm(searchQuery, searchContext, "guestbookName", false);
+        addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
+        addSearchLocalizedTerm(searchQuery, searchContext, Field.CONTENT, false);
+    }
+
+    @Override
+    protected void doDelete(Entry entry)
+            throws Exception {
+
+        deleteDocument(entry.getCompanyId(), entry.getEntryId());
+    }
+
+    @Override
+    protected Document doGetDocument(Entry entry)
+            throws Exception {
 
         Document document = getBaseModelDocument(CLASS_NAME, entry);
         document.addDate(Field.MODIFIED_DATE, entry.getModifiedDate());
@@ -59,8 +93,7 @@ public class EntryIndexer extends BaseIndexer<Entry> {
         String localizedTitle = LocalizationUtil.getLocalizedName(
                 Field.TITLE, defaultLocale.toString());
         String localizedMessage = LocalizationUtil.getLocalizedName(
-                Field.CONTENT, defaultLocale.toString()
-        );
+                Field.CONTENT, defaultLocale.toString());
 
         document.addText(localizedTitle, entry.getName());
         document.addText(localizedMessage, entry.getMessage());
@@ -69,8 +102,7 @@ public class EntryIndexer extends BaseIndexer<Entry> {
         Guestbook guestbook = _guestbookLocalService.getGuestbook(guestbookId);
         String guestbookName = guestbook.getName();
         String localizedGbName = LocalizationUtil.getLocalizedName(
-                "guestbookName", defaultLocale.toString()
-        );
+                "guestbookName", defaultLocale.toString());
 
         document.addText(localizedGbName, guestbookName);
 
@@ -78,11 +110,10 @@ public class EntryIndexer extends BaseIndexer<Entry> {
     }
 
     @Override
-    protected Summary doGetSummary(Document document,
-                                   Locale locale,
-                                   String snippet,
-                                   PortletRequest portletRequest,
-                                   PortletResponse portletResponse) throws Exception {
+    protected Summary doGetSummary(
+            Document document, Locale locale, String snippet,
+            PortletRequest portletRequest, PortletResponse portletResponse)
+            throws Exception {
 
         Summary summary = createSummary(document);
 
@@ -92,19 +123,34 @@ public class EntryIndexer extends BaseIndexer<Entry> {
     }
 
     @Override
-    protected void doReindex(String className, long classPK) throws Exception {
+    protected void doReindex(Entry entry)
+            throws Exception {
+
+        Document document = getDocument(entry);
+        indexWriterHelper.updateDocument(
+                getSearchEngineId(), entry.getCompanyId(), document,
+                isCommitImmediately());
+    }
+
+    @Override
+    protected void doReindex(String className, long classPK)
+            throws Exception {
 
         Entry entry = _entryLocalService.getEntry(classPK);
         doReindex(entry);
     }
 
     @Override
-    protected void doReindex(String[] ids) throws Exception {
+    protected void doReindex(String[] ids)
+            throws Exception {
 
         long companyId = GetterUtil.getLong(ids[0]);
+        reindexEntries(companyId);
     }
 
-    protected  void reindexEntries(long companyId) throws PortalException {
+    protected void reindexEntries(long companyId)
+            throws PortalException {
+
         final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
                 _entryLocalService.getIndexableActionableDynamicQuery();
 
@@ -119,8 +165,7 @@ public class EntryIndexer extends BaseIndexer<Entry> {
                         try {
                             Document document = getDocument(entry);
                             indexableActionableDynamicQuery.addDocuments(document);
-                        }
-                        catch (PortalException pe) {
+                        } catch (PortalException pe) {
                             if (_log.isWarnEnabled()) {
                                 _log.warn(
                                         "Unable to index entry " + entry.getEntryId(),
@@ -133,45 +178,6 @@ public class EntryIndexer extends BaseIndexer<Entry> {
         indexableActionableDynamicQuery.performActions();
     }
 
-    @Override
-    protected void doReindex(Entry entry) throws Exception {
-
-        Document document = getDocument(entry);
-        indexWriterHelper.updateDocument(
-                getSearchEngineId(),
-                entry.getCompanyId(),
-                document,
-                isCommitImmediately()
-        );
-
-    }
-
-    @Override
-    public String getClassName() {
-        return CLASS_NAME;
-    }
-
-    @Override
-    public boolean hasPermission(PermissionChecker permissionChecker,
-                                 String entryClassName,
-                                 long entryClassPK,
-                                 String actionId) throws Exception {
-        return EntryPermission.contains(
-                permissionChecker, entryClassPK, ActionKeys.VIEW);
-    }
-
-    @Override
-    public void postProcessContextBooleanFilter(BooleanFilter contextBooleanFilter, SearchContext searchContext) throws Exception {
-        addStatus(contextBooleanFilter, searchContext);
-    }
-
-    @Override
-    public void postProcessSearchQuery(BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter, SearchContext searchContext) throws Exception {
-        addSearchLocalizedTerm(searchQuery, searchContext, "guestbookName", false);
-        addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
-        addSearchLocalizedTerm(searchQuery, searchContext, Field.CONTENT, false);
-    }
-
     private static final Log _log = LogFactoryUtil.getLog(EntryIndexer.class);
 
     @Reference
@@ -182,4 +188,6 @@ public class EntryIndexer extends BaseIndexer<Entry> {
 
     @Reference
     private GuestbookLocalService _guestbookLocalService;
+
+
 }
