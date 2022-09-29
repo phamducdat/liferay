@@ -35,9 +35,7 @@ public class GuestbookIndexer extends BaseIndexer<Guestbook> {
         setDefaultSelectedFieldNames(
                 Field.ASSET_TAG_NAMES, Field.COMPANY_ID, Field.CONTENT,
                 Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK, Field.GROUP_ID,
-                Field.MODIFIED_DATE, Field.SCOPE_GROUP_ID, Field.TITLE, Field.UID
-        );
-
+                Field.MODIFIED_DATE, Field.SCOPE_GROUP_ID, Field.TITLE, Field.UID);
         setPermissionAware(true);
         setFilterSearch(true);
     }
@@ -48,25 +46,26 @@ public class GuestbookIndexer extends BaseIndexer<Guestbook> {
     }
 
     @Override
-    protected Document doGetDocument(Guestbook object) throws Exception {
-        Document document = getBaseModelDocument(CLASS_NAME, object);
+    protected Document doGetDocument(Guestbook guestbook)
+            throws Exception {
 
-        document.addDate(Field.MODIFIED_DATE, object.getModifiedDate());
+        Document document = getBaseModelDocument(CLASS_NAME, guestbook);
+
+        document.addDate(Field.MODIFIED_DATE, guestbook.getModifiedDate());
 
         Locale defaultLocale =
-                PortalUtil.getSiteDefaultLocale(object.getGroupId());
-        String localizedField = LocalizationUtil.getLocalizedName(Field.TITLE, defaultLocale.toString());
+                PortalUtil.getSiteDefaultLocale(guestbook.getGroupId());
+        String localizedField = LocalizationUtil.getLocalizedName(
+                Field.TITLE, defaultLocale.toString());
 
-        document.addText(localizedField, object.getName());
+        document.addText(localizedField, guestbook.getName());
         return document;
     }
 
     @Override
-    protected Summary doGetSummary(Document document,
-                                   Locale locale,
-                                   String snippet,
-                                   PortletRequest portletRequest,
-                                   PortletResponse portletResponse) throws Exception {
+    protected Summary doGetSummary(
+            Document document, Locale locale, String snippet,
+            PortletRequest portletRequest, PortletResponse portletResponse) {
 
         Summary summary = createSummary(document);
         summary.setMaxContentLength(200);
@@ -74,28 +73,29 @@ public class GuestbookIndexer extends BaseIndexer<Guestbook> {
     }
 
     @Override
-    protected void doReindex(String className, long classPK) throws Exception {
+    protected void doReindex(String className, long classPK)
+            throws Exception {
 
         Guestbook guestbook = _guestbookLocalService.getGuestbook(classPK);
         doReindex(guestbook);
     }
 
     @Override
-    protected void doReindex(String[] ids) throws Exception {
+    protected void doReindex(String[] ids)
+            throws Exception {
 
         long companyId = GetterUtil.getLong(ids[0]);
-
-
+        reindexGuestbooks(companyId);
     }
 
     @Override
-    protected void doReindex(Guestbook object) throws Exception {
+    protected void doReindex(Guestbook guestbook)
+            throws Exception {
 
-        Document document = getDocument(object);
+        Document document = getDocument(guestbook);
         indexWriterHelper.updateDocument(
-                getSearchEngineId(), object.getCompanyId(), document,
-                isCommitImmediately()
-        );
+                getSearchEngineId(), guestbook.getCompanyId(), document,
+                isCommitImmediately());
     }
 
     @Override
@@ -104,53 +104,65 @@ public class GuestbookIndexer extends BaseIndexer<Guestbook> {
     }
 
     @Override
-    public boolean hasPermission(PermissionChecker permissionChecker, String entryClassName, long entryClassPK, String actionId) throws Exception {
+    public boolean hasPermission(
+            PermissionChecker permissionChecker, String entryClassName,
+            long entryClassPK, String actionId)
+            throws Exception {
+
         return GuestbookPermission.contains(
-                permissionChecker, entryClassPK, ActionKeys.VIEW
-        );
+                permissionChecker, entryClassPK, ActionKeys.VIEW);
     }
 
     @Override
-    public void postProcessContextBooleanFilter(BooleanFilter contextBooleanFilter, SearchContext searchContext) throws Exception {
+    public void postProcessContextBooleanFilter(
+            BooleanFilter contextBooleanFilter, SearchContext searchContext)
+            throws Exception {
         addStatus(contextBooleanFilter, searchContext);
     }
 
     @Override
-    public void postProcessSearchQuery(BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter, SearchContext searchContext) throws Exception {
+    public void postProcessSearchQuery(
+            BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter,
+            SearchContext searchContext)
+            throws Exception {
+
         addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
     }
 
-    protected void reindexGuestbooks(long companyId) throws PortalException {
+    protected void reindexGuestbooks(long companyId)
+            throws PortalException {
+
         final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
                 _guestbookLocalService.getIndexableActionableDynamicQuery();
 
         indexableActionableDynamicQuery.setCompanyId(companyId);
 
         indexableActionableDynamicQuery.setPerformActionMethod(
+
                 new ActionableDynamicQuery.PerformActionMethod<Guestbook>() {
                     @Override
                     public void performAction(Guestbook guestbook) {
                         try {
                             Document document = getDocument(guestbook);
                             indexableActionableDynamicQuery.addDocuments(document);
-                        } catch (PortalException pe) {
+                        }
+                        catch (PortalException pe) {
                             if (_log.isWarnEnabled()) {
                                 _log.warn(
                                         "Unable to index guestbook " +
                                                 guestbook.getGuestbookId(),
-                                        pe
-                                );
+                                        pe);
                             }
                         }
                     }
-                }
-        );
+                });
         indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
         indexableActionableDynamicQuery.performActions();
     }
 
     private static final Log _log =
             LogFactoryUtil.getLog(GuestbookIndexer.class);
+
     @Reference
     protected IndexWriterHelper indexWriterHelper;
 
