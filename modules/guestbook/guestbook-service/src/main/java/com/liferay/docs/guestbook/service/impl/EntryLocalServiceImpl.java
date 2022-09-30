@@ -32,6 +32,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portlet.asset.util.AssetUtil;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.Date;
@@ -88,7 +89,6 @@ public class EntryLocalServiceImpl extends EntryLocalServiceBaseImpl {
 				serviceContext.getAssetTagNames(), true, true, null, null, null, null,
 				ContentTypes.TEXT_HTML, entry.getMessage(), null, null, null,
 				null, 0, 0, null);
-
 
 		assetLinkLocalService.updateLinks(userId, assetEntry.getEntryId(),
 				serviceContext.getAssetLinkEntryIds(),

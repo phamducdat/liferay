@@ -80,7 +80,6 @@ public class GuestbookAssetRendererFactory extends
     public void setServletContext(ServletContext servletContext) {
         _servletContext = servletContext;
     }
-    private ServletContext _servletContext;
 
     @Reference(unbind = "-")
     protected void setGuestbookLocalService(GuestbookLocalService guestbookLocalService) {
