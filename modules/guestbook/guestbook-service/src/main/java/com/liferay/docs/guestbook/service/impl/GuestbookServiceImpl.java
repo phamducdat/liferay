@@ -16,6 +16,9 @@ package com.liferay.docs.guestbook.service.impl;
 
 import com.liferay.docs.guestbook.model.Guestbook;
 import com.liferay.docs.guestbook.service.base.GuestbookServiceBaseImpl;
+import com.liferay.docs.guestbook.service.permission.GuestbookModelPermission;
+import com.liferay.docs.guestbook.service.permission.GuestbookPermission;
+import com.liferay.docs.guestbook.util.ActionKeys;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -37,23 +40,34 @@ public class GuestbookServiceImpl extends GuestbookServiceBaseImpl {
 
     public Guestbook addGuestbook(long userId, String name,
                                   ServiceContext serviceContext) throws PortalException {
+
+        GuestbookModelPermission.check(getPermissionChecker(),
+                serviceContext.getScopeGroupId(),
+                ActionKeys.ADD_GUESTBOOK);
+
         return guestbookLocalService.addGuestbook(userId, name, serviceContext);
     }
 
     public List<Guestbook> getGuestbooks(long groupId) {
-        return guestbookLocalService.getGuestbooks(groupId);
+
+        return guestbookPersistence.filterFindByGroupId(groupId);
     }
 
     public List<Guestbook> getGuestbooks(long groupId, int start, int end) {
-        return guestbookLocalService.getGuestbooks(groupId, start, end);
+        return guestbookPersistence.filterFindByGroupId(groupId, start, end);
     }
 
     public int getGuestbooksCount(long groupId) {
-        return guestbookLocalService.getGuestbooksCount();
+        return guestbookPersistence.filterCountByGroupId(groupId);
     }
 
     public Guestbook updateGuestbook(long userId, long guestbookId,
-                                     String name, ServiceContext serviceContext) throws PortalException {
+                                     String name, ServiceContext serviceContext)
+            throws PortalException {
+
+        GuestbookPermission.check(getPermissionChecker(),
+                guestbookId,
+                ActionKeys.UPDATE);
         return guestbookLocalService.updateGuestbook(userId, guestbookId,
                 name, serviceContext);
     }

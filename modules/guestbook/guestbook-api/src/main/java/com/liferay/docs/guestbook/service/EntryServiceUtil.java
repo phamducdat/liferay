@@ -14,6 +14,12 @@
 
 package com.liferay.docs.guestbook.service;
 
+import com.liferay.docs.guestbook.model.Entry;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for Entry. This utility wraps
  * <code>com.liferay.docs.guestbook.service.impl.EntryServiceImpl</code> and is an
@@ -33,14 +39,47 @@ public class EntryServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.docs.guestbook.service.impl.EntryServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Entry addEntry(
+			long userId, long guestbookId, String name, String email,
+			String message,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addEntry(
+			userId, guestbookId, name, email, message, serviceContext);
+	}
+
+	public static List<Entry> getEntries(long groupId, long guestbookId) {
+		return getService().getEntries(groupId, guestbookId);
+	}
+
+	public static List<Entry> getEntries(
+		long groupId, long guestbookId, int start, int end) {
+
+		return getService().getEntries(groupId, guestbookId, start, end);
+	}
+
+	public static int getEntriesCount(long groupId, long guestbookId) {
+		return getService().getEntriesCount(groupId, guestbookId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static Entry updateEntry(
+			long userId, long guestbookId, long entryId, String name,
+			String email, String message,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException, SystemException {
+
+		return getService().updateEntry(
+			userId, guestbookId, entryId, name, email, message, serviceContext);
 	}
 
 	public static EntryService getService() {

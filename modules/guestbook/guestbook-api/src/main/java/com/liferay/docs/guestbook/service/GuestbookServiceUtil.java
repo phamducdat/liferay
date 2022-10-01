@@ -14,6 +14,11 @@
 
 package com.liferay.docs.guestbook.service;
 
+import com.liferay.docs.guestbook.model.Guestbook;
+import com.liferay.portal.kernel.exception.PortalException;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for Guestbook. This utility wraps
  * <code>com.liferay.docs.guestbook.service.impl.GuestbookServiceImpl</code> and is an
@@ -33,14 +38,44 @@ public class GuestbookServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.liferay.docs.guestbook.service.impl.GuestbookServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Guestbook addGuestbook(
+			long userId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addGuestbook(userId, name, serviceContext);
+	}
+
+	public static List<Guestbook> getGuestbooks(long groupId) {
+		return getService().getGuestbooks(groupId);
+	}
+
+	public static List<Guestbook> getGuestbooks(
+		long groupId, int start, int end) {
+
+		return getService().getGuestbooks(groupId, start, end);
+	}
+
+	public static int getGuestbooksCount(long groupId) {
+		return getService().getGuestbooksCount(groupId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static Guestbook updateGuestbook(
+			long userId, long guestbookId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateGuestbook(
+			userId, guestbookId, name, serviceContext);
 	}
 
 	public static GuestbookService getService() {

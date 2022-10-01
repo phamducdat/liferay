@@ -30,6 +30,36 @@ public class EntryServiceWrapper
 		_entryService = entryService;
 	}
 
+	@Override
+	public com.liferay.docs.guestbook.model.Entry addEntry(
+			long userId, long guestbookId, String name, String email,
+			String message,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _entryService.addEntry(
+			userId, guestbookId, name, email, message, serviceContext);
+	}
+
+	@Override
+	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
+		long groupId, long guestbookId) {
+
+		return _entryService.getEntries(groupId, guestbookId);
+	}
+
+	@Override
+	public java.util.List<com.liferay.docs.guestbook.model.Entry> getEntries(
+		long groupId, long guestbookId, int start, int end) {
+
+		return _entryService.getEntries(groupId, guestbookId, start, end);
+	}
+
+	@Override
+	public int getEntriesCount(long groupId, long guestbookId) {
+		return _entryService.getEntriesCount(groupId, guestbookId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -38,6 +68,18 @@ public class EntryServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _entryService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.liferay.docs.guestbook.model.Entry updateEntry(
+			long userId, long guestbookId, long entryId, String name,
+			String email, String message,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			   com.liferay.portal.kernel.exception.SystemException {
+
+		return _entryService.updateEntry(
+			userId, guestbookId, entryId, name, email, message, serviceContext);
 	}
 
 	@Override
