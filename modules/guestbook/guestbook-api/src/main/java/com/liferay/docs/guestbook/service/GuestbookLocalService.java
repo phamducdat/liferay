@@ -344,4 +344,9 @@ public interface GuestbookLocalService
 			ServiceContext serviceContext)
 		throws PortalException;
 
+	public Guestbook updateStatus(
+			long userId, long guestbookId, int status,
+			ServiceContext serviceContext)
+		throws PortalException;
+
 }

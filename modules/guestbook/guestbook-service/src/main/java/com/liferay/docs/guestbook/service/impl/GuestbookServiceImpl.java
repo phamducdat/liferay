@@ -22,6 +22,7 @@ import com.liferay.docs.guestbook.util.ActionKeys;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.WorkflowInstanceLinkLocalService;
 import org.osgi.service.component.annotations.Component;
 
 import java.util.List;
