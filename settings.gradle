@@ -1,4 +1,6 @@
 import org.gradle.internal.os.OperatingSystem
+import com.liferay.gradle.plugins.service.builder.ServiceBuilderPlugin
+import com.liferay.gradle.plugins.wsdd.builder.WSDDBuilderPlugin
 
 buildscript {
 	def homePath = System.properties['user.home'].toString()
@@ -33,6 +35,14 @@ buildscript {
 			}
 		}
 	}
+}
+
+gradle.beforeProject {
+	project ->
+
+		project.plugins.withType(ServiceBuilderPlugin) {
+			project.apply plugin: WSDDBuilderPlugin
+		}
 }
 
 apply plugin: "net.saliman.properties"

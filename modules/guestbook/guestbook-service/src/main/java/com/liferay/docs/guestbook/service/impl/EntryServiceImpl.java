@@ -14,10 +14,16 @@
 
 package com.liferay.docs.guestbook.service.impl;
 
+import com.liferay.docs.guestbook.model.Entry;
 import com.liferay.docs.guestbook.service.base.EntryServiceBaseImpl;
 import com.liferay.portal.aop.AopService;
 
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.service.ServiceContext;
 import org.osgi.service.component.annotations.Component;
+
+import java.util.List;
 
 /**
  * @author liferay
@@ -30,4 +36,30 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class EntryServiceImpl extends EntryServiceBaseImpl {
+
+	public Entry addEntry(long userId, long guestbookId, String name, String email,
+						  String message, ServiceContext serviceContext) throws PortalException {
+		return entryLocalService.addEntry(userId, guestbookId, name, email, message, serviceContext);
+	}
+
+	public List<Entry> getEntries(long groupId, long guestbookId) {
+		return entryLocalService.getEntries(groupId, guestbookId);
+	}
+
+	public List<Entry> getEntries(long groupId, long guestbookId, int start, int end) {
+		return entryLocalService.getEntries(groupId, guestbookId, start, end);
+	}
+
+	public int getEntriesCount(long groupId, long guestbookId) {
+		return  entryLocalService.getEntriesCount(groupId, guestbookId);
+	}
+	public Entry updateEntry(long userId, long guestbookId, long entryId,
+							 String name, String email, String message,
+							 ServiceContext serviceContext) throws PortalException,
+			SystemException {
+
+		return entryLocalService.updateEntry(userId, guestbookId, entryId,
+				name, email, message, serviceContext);
+	}
+
 }
