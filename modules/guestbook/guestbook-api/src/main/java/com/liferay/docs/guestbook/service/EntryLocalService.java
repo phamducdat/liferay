@@ -351,4 +351,9 @@ public interface EntryLocalService
 			String email, String message, ServiceContext serviceContext)
 		throws PortalException, SystemException;
 
+	public Entry updateStatus(
+			long userId, long guestbookId, long entryId, int status,
+			ServiceContext serviceContext)
+		throws PortalException;
+
 }

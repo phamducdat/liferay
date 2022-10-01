@@ -402,6 +402,15 @@ public class EntryLocalServiceUtil {
 			userId, guestbookId, entryId, name, email, message, serviceContext);
 	}
 
+	public static Entry updateStatus(
+			long userId, long guestbookId, long entryId, int status,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateStatus(
+			userId, guestbookId, entryId, status, serviceContext);
+	}
+
 	public static EntryLocalService getService() {
 		return _service;
 	}

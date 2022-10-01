@@ -18,6 +18,7 @@ import com.liferay.docs.guestbook.model.Guestbook;
 import com.liferay.petra.sql.dsl.query.DSLQuery;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
@@ -289,6 +290,12 @@ public class GuestbookLocalServiceUtil {
 
 	public static List<Guestbook> getGuestbooks(long groupId) {
 		return getService().getGuestbooks(groupId);
+	}
+
+	public static List<Guestbook> getGuestbooks(long groupId, int status)
+		throws SystemException {
+
+		return getService().getGuestbooks(groupId, status);
 	}
 
 	public static List<Guestbook> getGuestbooks(
